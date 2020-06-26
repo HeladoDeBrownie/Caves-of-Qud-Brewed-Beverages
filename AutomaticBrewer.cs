@@ -15,15 +15,22 @@ namespace XRL.World.Parts
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
         public const string MESSAGE_REFUSAL_ANNOYED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
 
+        public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator("helado_Brewed Beverages");
+
         byte Annoyance = 0;
-        byte AnnoyanceThreshold = 3;
+        byte AnnoyanceThreshold = (byte)RandomGenerator.Next(3, 11);
         byte TurnsLeft = 0;
+
+        public bool IsAnnoyed()
+        {
+            return Annoyance >= AnnoyanceThreshold;
+        }
 
         public void Activate()
         {
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            if (Annoyance >= AnnoyanceThreshold)
+            if (IsAnnoyed())
             {
                 // Refuse to work because we're too annoyed.
 
