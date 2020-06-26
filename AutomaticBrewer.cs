@@ -19,9 +19,24 @@ namespace XRL.World.Parts
 
         byte Annoyance = 0;
         byte AnnoyanceThreshold = (byte)RandomGenerator.Next(3, 11);
+        GameObject LastActivator = null;
         byte TurnsLeft = 0;
 
-        public bool IsAnnoyed()
+        public void GetAnnoyed()
+        {
+            Annoyance++;
+            if (IsAggravated())
+            {
+                var brain = ParentObject.pBrain;
+
+                if (brain != null && LastActivator != null) {
+                    // We're mad now >:(
+                    brain.GetAngryAt(LastActivator);
+                }
+            }
+        }
+
+        public bool IsAggravated()
         {
             return Annoyance >= AnnoyanceThreshold;
         }
@@ -30,9 +45,9 @@ namespace XRL.World.Parts
         {
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            if (IsAnnoyed())
+            if (IsAggravated())
             {
-                // Refuse to work because we're too annoyed.
+                // Refuse to work because we're too aggravated.
 
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_ANNOYED,
@@ -88,7 +103,7 @@ namespace XRL.World.Parts
                     // Blech, that was not a good recipe :(
                     var liquid = ParentObject.GetPart<LiquidVolume>();
                     liquid.MixWith(new LiquidVolume("putrid", 1));
-                    Annoyance++;
+                    GetAnnoyed();
 
                     AddPlayerMessage(VariableReplace(
                         MESSAGE_BREWING_FAILURE.Replace(
@@ -146,6 +161,7 @@ namespace XRL.World.Parts
                     AddPlayerMessage(message);
                 }
 
+                LastActivator = E.Actor;
                 Activate();
                 return true;
             }
