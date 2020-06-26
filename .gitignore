@@ -1,0 +1,4 @@
+bin/
+obj/
+Assembly-CSharp.dll
+UnityEngine.CoreModule.dll
