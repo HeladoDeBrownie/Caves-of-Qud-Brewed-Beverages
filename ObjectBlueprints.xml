@@ -20,4 +20,15 @@
         <property Name="DontWarnOnOpen" Value="true" />
         <intproperty Name="Inorganic" Value="1" />
     </object>
+
+    <object Name="helado_Brewed Beverages_Base Recipe" Inherits="DataBucket">
+        <tag Name="BaseObject" Value="*noinherit" />
+        <tag Name="ExcludeFromDynamicEncounters" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Vinewafer Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredient Blueprints" Value="Vinewafer" />
+        <tag Name="helado_Brewed Beverages_Brewing Time" Value="1,1" />
+        <tag Name="helado_Brewed Beverages_Liquid Product" Value="water" />
+    </object>
 </objects>
