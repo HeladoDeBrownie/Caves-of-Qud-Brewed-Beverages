@@ -16,9 +16,9 @@ namespace XRL.World.Parts
                     ParentObject.The +
                     ParentObject.DisplayNameOnly +
                     " whines and grinds as " +
-                    "its" /* TODO */ +
+                    ParentObject.its +
                     " mechanisms gain momentum, then sets busily to work processing " +
-                    "its" /* TODO */ +
+                    ParentObject.its +
                     " input."
                 );
             }
@@ -27,7 +27,9 @@ namespace XRL.World.Parts
                 AddPlayerMessage(
                     ParentObject.The +
                     ParentObject.DisplayNameOnly +
-                    " patiently flashes a pair of lights on either side of its liquid dish."
+                    " patiently flashes a pair of lights on either side of " +
+                    ParentObject.its +
+                    " liquid dish."
                 );
             }
         }

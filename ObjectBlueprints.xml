@@ -2,7 +2,7 @@
     <object Name="helado_Brewed Beverages_Automatic Brewer" Inherits="Furniture">
         <!-- Parts -->
         <part Name="Render" DisplayName="automatic brewer" ColorString="&amp;Y" DetailColor="W" RenderString="127" Tile="Items/sw_universal_station.bmp" Occluding="false" RenderIfDark="true" />
-        <part Name="Description" Short="Lifeless, the exposed labyrinth of gears, rods, and tubes betray none of their secrets. But when the machine whirs into motion, its deft processes outline only one, inevitable goal: the production of liquid sustenance." />
+        <part Name="Description" Short="Lifeless, the exposed labyrinth of gears, rods, and tubes betray none of their secrets. But when the machine whirs into motion, =pronouns.possessive= deft processes outline only one, inevitable goal: the production of liquid sustenance." />
         <part Name="Physics" Weight="100" Takeable="false" />
         <part Name="Container" />
         <part Name="Inventory" />
