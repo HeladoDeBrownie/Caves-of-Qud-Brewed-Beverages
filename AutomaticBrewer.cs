@@ -2,11 +2,61 @@ namespace XRL.World.Parts
 {
     public class helado_BrewedBeverages_AutomaticBrewer : IPart
     {
+        int TurnsLeft = 0;
+
+        public void Activate()
+        {
+            TurnsLeft = 3;
+
+            AddPlayerMessage(
+                ParentObject.The +
+                ParentObject.DisplayNameOnly +
+                " whines and grinds as " +
+                "its" /* TODO */ +
+                " mechanisms gain momentum, then sets busily to work processing " +
+                "its" /* TODO */ +
+                " input."
+            );
+        }
+
         public override bool WantEvent(int ID, int cascade)
         {
             return base.WantEvent(ID, cascade) ||
+                ID == EndTurnEvent.ID ||
                 ID == GetInventoryActionsEvent.ID ||
                 ID == InventoryActionEvent.ID;
+        }
+
+        public override bool HandleEvent(EndTurnEvent E)
+        {
+            if (TurnsLeft > 0) // currently brewing
+            {
+                TurnsLeft--;
+
+                if (TurnsLeft > 0)
+                {
+                    XDidY(
+                        ParentObject,   // agent
+                        "hum",          // verb
+                        "anxiously"     // part to append
+                    );
+                }
+                else
+                {
+                    LiquidVolume liquid = ParentObject.GetPart<LiquidVolume>();
+                    liquid.MixWith(new LiquidVolume("putrid", 1));
+
+                    AddPlayerMessage(
+                        ParentObject.The +
+                        ParentObject.DisplayNameOnly +
+                        " breaks into a coughing fit and vomits up " +
+                        liquid.GetLiquidName() +
+                        "."
+                    );
+                }
+            }
+
+            return true;
         }
 
         public override bool HandleEvent(GetInventoryActionsEvent E)
@@ -34,28 +84,16 @@ namespace XRL.World.Parts
             if (E.Command == "Activate")
             {
                 XDidYToZ(
-                   E.Actor,        // agent
-                   "activate",     // verb
-                   ParentObject,   // patient
+                   E.Actor,             // agent
+                   "activate",          // verb
+                   ParentObject,        // patient
                    null,
                    null,
-                   true,           // show as dialog
-                   null,
-                   null,
-                   null,
-                   null,
-                   false,
-                   false,
-                   false,
-                   false,
-                   false,
-                   null,
-                   null,
-                   null,
-                   false
+                   E.Actor.IsPlayer()   // show as dialog if done by the player
                );
 
-               return true;
+                Activate();
+                return true;
             }
             else
             {
