@@ -92,6 +92,7 @@ namespace XRL.World.Parts
                    E.Actor.IsPlayer()   // show as dialog if done by the player
                );
 
+                E.RequestInterfaceExit();
                 Activate();
                 return true;
             }
