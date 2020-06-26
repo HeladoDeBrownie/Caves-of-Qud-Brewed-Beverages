@@ -23,6 +23,7 @@ namespace XRL.World.Parts
 
             if (liquid.IsEmpty())
             {
+                // Begin brewing.
                 TurnsLeft = 3;
 
                 AddPlayerMessage(VariableReplace(
@@ -32,6 +33,8 @@ namespace XRL.World.Parts
             }
             else
             {
+                // Refuse to work because our dish has liquid in it already.
+
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_DISH_OCCUPIED,
                     ParentObject
@@ -55,6 +58,7 @@ namespace XRL.World.Parts
 
                 if (TurnsLeft > 0)
                 {
+                    // We're not feeling so good :(
                     AddPlayerMessage(VariableReplace(
                         MESSAGE_BREWING_CONTINUE_POOR,
                         ParentObject
@@ -62,6 +66,7 @@ namespace XRL.World.Parts
                 }
                 else
                 {
+                    // Blech, that was not a good recipe :(
                     var liquid = ParentObject.GetPart<LiquidVolume>();
                     liquid.MixWith(new LiquidVolume("putrid", 1));
 
@@ -80,6 +85,8 @@ namespace XRL.World.Parts
 
         public override bool HandleEvent(GetInventoryActionsEvent E)
         {
+            // List an activate option that makes us brew.
+
             E.AddAction(
                 "Activate",         // internal menu option name
                 'a',                // shortcut key
@@ -97,16 +104,18 @@ namespace XRL.World.Parts
 
         public override bool HandleEvent(InventoryActionEvent E)
         {
-            var message = VariableReplace(
-                MESSAGE_ACTIVATE,           // string to substitute in
-                E.Actor,                    // subject
-                null,
-                false,
-                ParentObject                // object
-            );
-
             if (E.Command == "Activate")
             {
+                // We've been activated!
+
+                var message = VariableReplace(
+                    MESSAGE_ACTIVATE,           // string to substitute in
+                    E.Actor,                    // subject
+                    null,
+                    false,
+                    ParentObject                // object
+                );
+
                 if (E.Actor.IsPlayer())
                 {
                     XRL.UI.Popup.Show(message);
