@@ -2,21 +2,34 @@ namespace XRL.World.Parts
 {
     public class helado_BrewedBeverages_AutomaticBrewer : IPart
     {
-        int TurnsLeft = 0;
+        byte TurnsLeft = 0;
 
         public void Activate()
         {
-            TurnsLeft = 3;
+            var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            AddPlayerMessage(
-                ParentObject.The +
-                ParentObject.DisplayNameOnly +
-                " whines and grinds as " +
-                "its" /* TODO */ +
-                " mechanisms gain momentum, then sets busily to work processing " +
-                "its" /* TODO */ +
-                " input."
-            );
+            if (liquid.IsEmpty())
+            {
+                TurnsLeft = 3;
+
+                AddPlayerMessage(
+                    ParentObject.The +
+                    ParentObject.DisplayNameOnly +
+                    " whines and grinds as " +
+                    "its" /* TODO */ +
+                    " mechanisms gain momentum, then sets busily to work processing " +
+                    "its" /* TODO */ +
+                    " input."
+                );
+            }
+            else
+            {
+                AddPlayerMessage(
+                    ParentObject.The +
+                    ParentObject.DisplayNameOnly +
+                    " patiently flashes a pair of lights on either side of its liquid dish."
+                );
+            }
         }
 
         public override bool WantEvent(int ID, int cascade)
@@ -43,7 +56,7 @@ namespace XRL.World.Parts
                 }
                 else
                 {
-                    LiquidVolume liquid = ParentObject.GetPart<LiquidVolume>();
+                    var liquid = ParentObject.GetPart<LiquidVolume>();
                     liquid.MixWith(new LiquidVolume("putrid", 1));
 
                     AddPlayerMessage(
