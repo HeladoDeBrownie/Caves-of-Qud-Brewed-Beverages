@@ -13,30 +13,41 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_SUCCESS_TRICKY = "=capitalize==subject.the==subject.name= =verb:chime= smugly and =verb:serve= up =liquid=.";
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
-        public const string MESSAGE_REFUSAL_UNTRUSTWORTHY = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
+        public const string MESSAGE_REFUSAL_ANNOYED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
 
+        byte Annoyance = 0;
+        byte AnnoyanceThreshold = 3;
         byte TurnsLeft = 0;
 
         public void Activate()
         {
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            if (liquid.IsEmpty())
+            if (Annoyance >= AnnoyanceThreshold)
+            {
+                // Refuse to work because we're too annoyed.
+
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_REFUSAL_ANNOYED,
+                    ParentObject
+                ));
+            }
+            else if (!liquid.IsEmpty())
+            {
+                // Refuse to work because our dish has liquid in it already.
+
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_REFUSAL_DISH_OCCUPIED,
+                    ParentObject
+                ));
+            }
+            else
             {
                 // Begin brewing.
                 TurnsLeft = 3;
 
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_BREWING_BEGIN,
-                    ParentObject
-                ));
-            }
-            else
-            {
-                // Refuse to work because our dish has liquid in it already.
-
-                AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_DISH_OCCUPIED,
                     ParentObject
                 ));
             }
@@ -59,6 +70,7 @@ namespace XRL.World.Parts
                 if (TurnsLeft > 0)
                 {
                     // We're not feeling so good :(
+
                     AddPlayerMessage(VariableReplace(
                         MESSAGE_BREWING_CONTINUE_POOR,
                         ParentObject
@@ -69,6 +81,7 @@ namespace XRL.World.Parts
                     // Blech, that was not a good recipe :(
                     var liquid = ParentObject.GetPart<LiquidVolume>();
                     liquid.MixWith(new LiquidVolume("putrid", 1));
+                    Annoyance++;
 
                     AddPlayerMessage(VariableReplace(
                         MESSAGE_BREWING_FAILURE.Replace(
