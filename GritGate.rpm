@@ -1,0 +1,5 @@
+<Map Load="Merge">
+    <cell X="7" Y="11">
+        <object Name="helado_Brewed Beverages_Automatic Brewer" />
+    </cell>
+</Map>
