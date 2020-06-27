@@ -12,13 +12,13 @@ See [the Official Caves of Qud Wiki](https://cavesofqud.gamepedia.com/Modding:In
 
 Integration with other mods is not fully implemented yet. Check back later!
 
+# Contributing
+
+Open an issue or send a pull request on [the project's Github repository](https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages). If you contribute code, make sure your contribution runs in-game.
+
 # Developing
 
 - Install the `dotnet` command.
 - Copy or symbolic link `Assembly-CSharp.dll` and `UnityEngine.CoreModule.dll` from the *Caves of Qud* installation into this mod's directory. (These are ignored by this project's git settings.)
 
 Now you can `dotnet build` to error check the code and also use Visual Studio Code's code completion.
-
-# Contributing
-
-Open an issue or send a pull request on [the project's Github repository](https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages). Make sure your contribution runs in-game.
