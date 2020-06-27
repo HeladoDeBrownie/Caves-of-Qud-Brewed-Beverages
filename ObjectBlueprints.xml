@@ -6,7 +6,7 @@
         <part Name="Physics" Weight="100" Takeable="false" />
         <part Name="Container" />
         <part Name="Inventory" />
-        <part Name="LiquidVolume" StartVolume="0" MaxVolume="64" />
+        <part Name="LiquidVolume" StartVolume="0" MaxVolume="1" />
         <part Name="TinkerItem" Bits="00124" CanDisassemble="true" CanBuild="false" CanRepair="true" />
         <part Name="Examiner" UnknownDisplayName="bizarre contraption" AlternateDisplayName="strange furniture" Complexity="3" />
         <part Name="Metal" />
