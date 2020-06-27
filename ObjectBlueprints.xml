@@ -19,6 +19,10 @@
         <!-- Properties -->
         <property Name="DontWarnOnOpen" Value="true" />
         <intproperty Name="Inorganic" Value="1" />
+
+        <!-- Tags -->
+        <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
+        <tag Name="HeroNameTitleDescriptor" Value="Drippy,Percolatory,Sputtery" />
     </object>
 
     <object Name="helado_Brewed Beverages_Base Recipe" Inherits="DataBucket">
