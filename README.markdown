@@ -8,6 +8,10 @@ See [the spoilers](Spoilers.markdown) for more information.
 
 See [the Official Caves of Qud Wiki](https://cavesofqud.gamepedia.com/Modding:Installing_a_mod#GitHub) for directions.
 
+# Modding
+
+Integration with other mods is not fully implemented yet. Check back later!
+
 # Developing
 
 - Install the `dotnet` command.
@@ -18,7 +22,3 @@ Now you can `dotnet build` to error check the code and also use Visual Studio Co
 # Contributing
 
 Open an issue or send a pull request on [the project's Github repository](https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages). Make sure your contribution runs in-game.
-
-# Modding
-
-Integration with other mods is not fully implemented yet. Check back later!
