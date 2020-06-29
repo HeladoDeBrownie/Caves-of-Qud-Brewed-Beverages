@@ -127,28 +127,55 @@ namespace XRL.World.Parts
 
                 if (TurnsLeft > 0)
                 {
-                    // We're not feeling so good :(
+                    if (ActiveRecipe == null)
+                    {
+                        // We're not feeling so good :(
 
-                    AddPlayerMessage(VariableReplace(
-                        MESSAGE_BREWING_CONTINUE_POOR,
-                        ParentObject
-                    ));
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_CONTINUE_POOR,
+                            ParentObject
+                        ));
+                    }
+                    else
+                    {
+                        // Hum de dum :)
+
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_CONTINUE_FINE,
+                            ParentObject
+                        ));
+                    }
                 }
                 else
                 {
-                    // Blech, that was not a good recipe :(
-                    var liquid = ParentObject.GetPart<LiquidVolume>();
-                    liquid.MixWith(new LiquidVolume("putrid", 1));
-                    ActiveRecipe = null;
-                    GetAnnoyed();
+                    if (ActiveRecipe == null) {
+                        // Blech, that was not a good recipe :(
+                        var liquid = ParentObject.GetPart<LiquidVolume>();
+                        liquid.MixWith(new LiquidVolume("putrid", 1));
+                        ActiveRecipe = null;
+                        GetAnnoyed();
 
-                    AddPlayerMessage(VariableReplace(
-                        MESSAGE_BREWING_FAILURE.Replace(
-                            "=liquid=",
-                            liquid.GetLiquidName()
-                        ),
-                        ParentObject
-                    ));
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_FAILURE.Replace(
+                                "=liquid=",
+                                liquid.GetLiquidName()
+                            ),
+                            ParentObject
+                        ));
+                    } else {
+                        // All done :)
+                        var liquid = ParentObject.GetPart<LiquidVolume>();
+                        liquid.MixWith(new LiquidVolume("water", 1));
+                        ActiveRecipe = null;
+
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_SUCCESS.Replace(
+                                "=liquid=",
+                                liquid.GetLiquidName()
+                            ),
+                            ParentObject
+                        ));
+                    }
                 }
             }
 
