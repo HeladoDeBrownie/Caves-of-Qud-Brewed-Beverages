@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using static XRL.UI.ConversationUI;
 
 namespace XRL.World.Parts
@@ -20,6 +21,7 @@ namespace XRL.World.Parts
         byte Annoyance = 0;
         byte AggravationThreshold = (byte)RandomGenerator.Next(3, 11);
         GameObject LastActivator = null;
+        GameObjectBlueprint ActiveRecipe = null;
         byte TurnsLeft = 0;
 
         public void GetAnnoyed()
@@ -30,7 +32,8 @@ namespace XRL.World.Parts
             {
                 var brain = ParentObject.pBrain;
 
-                if (brain != null && LastActivator != null) {
+                if (brain != null && LastActivator != null)
+                {
                     // We're mad now >:(
                     brain.GetAngryAt(LastActivator);
                 }
@@ -66,6 +69,27 @@ namespace XRL.World.Parts
             }
             else
             {
+                ActiveRecipe = null;
+                var recipeSignatureToMatch = new SortedSet<string>(ParentObject.GetPart<Inventory>().GetObjects().ConvertAll(delegate (GameObject go)
+                {
+                    return go.GetBlueprint().Name;
+                }));
+
+                foreach (var recipe in
+                    GameObjectFactory.Factory.GetBlueprintsWithTag(
+                        "helado_Brewed Beverages_Recipe"
+                    )
+                )
+                {
+                    var recipeSignature = new SortedSet<string>(recipe.GetTag("helado_Brewed Beverages_Ingredient Blueprints").Split(','));
+
+                    if (recipeSignature.SetEquals(recipeSignatureToMatch))
+                    {
+                        ActiveRecipe = recipe;
+                        break;
+                    }
+                }
+
                 // Begin brewing.
                 TurnsLeft = 3;
 

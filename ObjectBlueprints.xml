@@ -28,6 +28,7 @@
     <object Name="helado_Brewed Beverages_Base Recipe" Inherits="DataBucket">
         <tag Name="BaseObject" Value="*noinherit" />
         <tag Name="ExcludeFromDynamicEncounters" />
+        <tag Name="helado_Brewed Beverages_Recipe" />
     </object>
 
     <object Name="helado_Brewed Beverages_Vinewafer Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
