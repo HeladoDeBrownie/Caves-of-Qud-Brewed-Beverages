@@ -1,10 +1,15 @@
-using System.Collections.Generic;
-using static XRL.UI.ConversationUI;
+using System.Collections.Generic;   // SortedSet
+using static XRL.UI.ConversationUI; // VariableReplace
 
 namespace XRL.World.Parts
 {
     public class helado_BrewedBeverages_AutomaticBrewer : IPart
     {
+        public const string MOD_PREFIX = "helado_Brewed Beverages";
+        public const string TAG_RECIPE = MOD_PREFIX + "_Recipe";
+        public const string TAG_INGREDIENTS = MOD_PREFIX + "_Ingredients";
+        public const string TAG_DURATION = MOD_PREFIX + "_Duration";
+        public const string TAG_BEVERAGE = MOD_PREFIX + "_Beverage";
         public const string MESSAGE_ACTIVATE = "=capitalize==subject.the==subject.name= =verb:activate= =object.the==object.name=.";
         public const string MESSAGE_BREWING_BEGIN = "=capitalize==subject.the==subject.name= =verb:whine= and =verb:grind= as =pronouns.subjective= =verb:gain:afterpronoun= momentum, then =verb:set= busily to work processing =pronouns.possessive= input.";
         public const string MESSAGE_BREWING_ABORT = "=capitalize==subject.the==subject.name= =verb:growl= in annoyance and =verb:abort= =pronouns.possessive= processes.";
@@ -17,34 +22,13 @@ namespace XRL.World.Parts
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
 
-        public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator("helado_Brewed Beverages");
+        public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
 
         byte Annoyance = 0;
         byte AggravationThreshold = (byte)RandomGenerator.Next(3, 11);
         GameObject LastActivator = null;
-        GameObjectBlueprint ActiveRecipe = null;
+        Recipe ActiveRecipe = null;
         byte TurnsLeft = 0;
-
-        public void GetAnnoyed()
-        {
-            Annoyance++;
-
-            if (IsAggravated())
-            {
-                var brain = ParentObject.pBrain;
-
-                if (brain != null && LastActivator != null)
-                {
-                    // We're mad now >:(
-                    brain.GetAngryAt(LastActivator);
-                }
-            }
-        }
-
-        public bool IsAggravated()
-        {
-            return Annoyance >= AggravationThreshold;
-        }
 
         public void Activate()
         {
@@ -81,33 +65,89 @@ namespace XRL.World.Parts
             else
             {
                 ActiveRecipe = null;
-                var recipeSignatureToMatch = new SortedSet<string>(ParentObject.GetPart<Inventory>().GetObjects().ConvertAll(delegate (GameObject go)
+                var triedIngredients = new SortedSet<string>(ParentObject.GetPart<Inventory>().GetObjects().ConvertAll(delegate (GameObject go)
                 {
                     return go.GetBlueprint().Name;
                 }));
 
-                foreach (var recipe in
-                    GameObjectFactory.Factory.GetBlueprintsWithTag(
-                        "helado_Brewed Beverages_Recipe"
-                    )
+                foreach (var blueprint in
+                    GameObjectFactory.Factory.GetBlueprintsWithTag(TAG_RECIPE)
                 )
                 {
-                    var recipeSignature = new SortedSet<string>(recipe.GetTag("helado_Brewed Beverages_Ingredient Blueprints").Split(','));
+                    var recipe = ParseRecipe(blueprint);
 
-                    if (recipeSignature.SetEquals(recipeSignatureToMatch))
+                    if (recipe != null && recipe.Ingredients.SetEquals(triedIngredients))
                     {
                         ActiveRecipe = recipe;
                         break;
                     }
                 }
 
-                // Begin brewing.
-                TurnsLeft = 3;
+                // If no valid recipe was found, we're brewing putrescence :(
+                if (ActiveRecipe == null)
+                {
+                    ActiveRecipe = new Recipe();
+                }
+
+                TurnsLeft = ActiveRecipe.Duration;
 
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_BREWING_BEGIN,
                     ParentObject
                 ));
+            }
+        }
+
+        public bool IsAggravated()
+        {
+            return Annoyance >= AggravationThreshold;
+        }
+
+        public void GetAnnoyed()
+        {
+            Annoyance++;
+
+            if (IsAggravated())
+            {
+                var brain = ParentObject.pBrain;
+
+                if (brain != null && LastActivator != null)
+                {
+                    // We're mad now >:(
+                    brain.GetAngryAt(LastActivator);
+                }
+            }
+        }
+
+        public static Recipe ParseRecipe(GameObjectBlueprint Blueprint)
+        {
+            byte duration;
+
+            if (
+                Blueprint.HasTag(TAG_RECIPE) &&
+                Blueprint.HasTag(TAG_INGREDIENTS) &&
+                Blueprint.HasTag(TAG_DURATION) &&
+                Blueprint.HasTag(TAG_BEVERAGE) &&
+                byte.TryParse(
+                    Blueprint.GetTag(TAG_DURATION),
+                    result: out duration
+                )
+            )
+            {
+                var recipe = new Recipe();
+
+                recipe.Ingredients = new SortedSet<string>(
+                    Blueprint.GetTag(TAG_INGREDIENTS).Split(',')
+                );
+
+                recipe.Duration = duration;
+                recipe.Beverage = Blueprint.GetTag(TAG_BEVERAGE);
+                recipe.Mistake = false;
+                return recipe;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -121,13 +161,13 @@ namespace XRL.World.Parts
 
         public override bool HandleEvent(EndTurnEvent E)
         {
-            if (TurnsLeft > 0) // currently brewing
+            if (ActiveRecipe != null && TurnsLeft > 0) // currently brewing
             {
                 TurnsLeft--;
 
                 if (TurnsLeft > 0)
                 {
-                    if (ActiveRecipe == null)
+                    if (ActiveRecipe.Mistake)
                     {
                         // We're not feeling so good :(
 
@@ -148,34 +188,24 @@ namespace XRL.World.Parts
                 }
                 else
                 {
-                    if (ActiveRecipe == null) {
-                        // Blech, that was not a good recipe :(
-                        var liquid = ParentObject.GetPart<LiquidVolume>();
-                        liquid.MixWith(new LiquidVolume("putrid", 1));
-                        ActiveRecipe = null;
+                    var liquid = ParentObject.GetPart<LiquidVolume>();
+                    liquid.MixWith(new LiquidVolume(ActiveRecipe.Beverage, 1));
+
+                    AddPlayerMessage(VariableReplace(
+                        (ActiveRecipe.Mistake ? MESSAGE_BREWING_FAILURE
+                                        : MESSAGE_BREWING_SUCCESS).Replace(
+                            "=liquid=",
+                            liquid.GetLiquidName()
+                        ),
+                        ParentObject
+                    ));
+
+                    if (ActiveRecipe.Mistake)
+                    {
                         GetAnnoyed();
-
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_FAILURE.Replace(
-                                "=liquid=",
-                                liquid.GetLiquidName()
-                            ),
-                            ParentObject
-                        ));
-                    } else {
-                        // All done :)
-                        var liquid = ParentObject.GetPart<LiquidVolume>();
-                        liquid.MixWith(new LiquidVolume("water", 1));
-                        ActiveRecipe = null;
-
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_SUCCESS.Replace(
-                                "=liquid=",
-                                liquid.GetLiquidName()
-                            ),
-                            ParentObject
-                        ));
                     }
+
+                    ActiveRecipe = null;
                 }
             }
 
@@ -233,6 +263,14 @@ namespace XRL.World.Parts
             {
                 return false;
             }
+        }
+
+        public class Recipe
+        {
+            public SortedSet<string> Ingredients = null;
+            public byte Duration = 3;
+            public string Beverage = "putrid";
+            public bool Mistake = true;
         }
     }
 }
