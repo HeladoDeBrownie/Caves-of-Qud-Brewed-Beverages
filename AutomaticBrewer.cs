@@ -13,18 +13,19 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_SUCCESS_TRICKY = "=capitalize==subject.the==subject.name= =verb:chime= smugly and =verb:serve= up =liquid=.";
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
-        public const string MESSAGE_REFUSAL_ANNOYED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
+        public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
 
         public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator("helado_Brewed Beverages");
 
         byte Annoyance = 0;
-        byte AnnoyanceThreshold = (byte)RandomGenerator.Next(3, 11);
+        byte AggravationThreshold = (byte)RandomGenerator.Next(3, 11);
         GameObject LastActivator = null;
         byte TurnsLeft = 0;
 
         public void GetAnnoyed()
         {
             Annoyance++;
+
             if (IsAggravated())
             {
                 var brain = ParentObject.pBrain;
@@ -38,7 +39,7 @@ namespace XRL.World.Parts
 
         public bool IsAggravated()
         {
-            return Annoyance >= AnnoyanceThreshold;
+            return Annoyance >= AggravationThreshold;
         }
 
         public void Activate()
@@ -50,7 +51,7 @@ namespace XRL.World.Parts
                 // Refuse to work because we're too aggravated.
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_ANNOYED,
+                    MESSAGE_REFUSAL_AGGRAVATED,
                     ParentObject
                 ));
             }
