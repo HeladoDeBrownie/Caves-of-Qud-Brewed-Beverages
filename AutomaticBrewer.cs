@@ -13,8 +13,9 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_SUCCESS = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and dispense =liquid=.";
         public const string MESSAGE_BREWING_SUCCESS_TRICKY = "=capitalize==subject.the==subject.name= =verb:chime= smugly and =verb:serve= up =liquid=.";
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
-        public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
+        public const string MESSAGE_REFUSAL_WORKING = "=subject.The==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
+        public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
 
         public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator("helado_Brewed Beverages");
 
@@ -49,7 +50,17 @@ namespace XRL.World.Parts
         {
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            if (IsAggravated())
+            if (TurnsLeft > 0)
+            {
+                // Refuse to work because we're already working!
+                GetAnnoyed();
+
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_REFUSAL_WORKING,
+                    ParentObject
+                ));
+            }
+            else if (IsAggravated())
             {
                 // Refuse to work because we're too aggravated.
 
@@ -128,6 +139,7 @@ namespace XRL.World.Parts
                     // Blech, that was not a good recipe :(
                     var liquid = ParentObject.GetPart<LiquidVolume>();
                     liquid.MixWith(new LiquidVolume("putrid", 1));
+                    ActiveRecipe = null;
                     GetAnnoyed();
 
                     AddPlayerMessage(VariableReplace(
