@@ -30,6 +30,24 @@
         <tag Name="helado_Brewed Beverages_Recipe" />
     </object>
 
+    <object Name="helado_Brewed Beverages_Luminous Hoarshroom Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Hoarshroom" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="3" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="convalessence" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Starapple Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Starapple" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="5" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="cider" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Urberry Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Urberry" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="10" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="wine" />
+    </object>
+
     <object Name="helado_Brewed Beverages_Vinewafer Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
         <tag Name="helado_Brewed Beverages_Ingredients" Value="Vinewafer" />
         <tag Name="helado_Brewed Beverages_Duration" Value="3" />
