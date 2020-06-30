@@ -22,7 +22,7 @@
 
         <!-- Tags -->
         <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
-        <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Percolatory,Slushy,Sputtery,Sticky" />
+        <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
     </object>
 
     <object Name="helado_Brewed Beverages_Base Recipe" Inherits="DataBucket">
