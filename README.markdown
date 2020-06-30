@@ -34,6 +34,8 @@ Open an issue or send a pull request on [the project's Github repository](https:
 
 # Developing
 
+The following steps are optional but useful:
+
 - Install the `dotnet` command.
 - Copy or symbolic link `Assembly-CSharp.dll` and `UnityEngine.CoreModule.dll` from the *Caves of Qud* installation into this mod's directory. (These are ignored by this project's git settings.)
 
