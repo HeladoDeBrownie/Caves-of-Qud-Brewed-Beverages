@@ -189,19 +189,13 @@ namespace XRL.World.Parts
                 }
                 else
                 {
-                    var beverage = new LiquidVolume(ActiveRecipe.Beverage, 1);
-
-                    if (beverage.IsEmpty())
-                    {
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_HUH,
-                            ParentObject
-                        ));
-                    }
-                    else
+                    if (LiquidVolume.isValidLiquid(ActiveRecipe.Beverage))
                     {
                         var liquid = ParentObject.GetPart<LiquidVolume>();
-                        liquid.MixWith(beverage);
+
+                        liquid.MixWith(
+                            new LiquidVolume(ActiveRecipe.Beverage, 1)
+                        );
 
                         AddPlayerMessage(VariableReplace(
                             (ActiveRecipe.Mistake ? MESSAGE_BREWING_FAILURE
@@ -216,6 +210,13 @@ namespace XRL.World.Parts
                         {
                             GetAnnoyed();
                         }
+                    }
+                    else
+                    {
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_HUH,
+                            ParentObject
+                        ));
                     }
 
                     ActiveRecipe = null;
