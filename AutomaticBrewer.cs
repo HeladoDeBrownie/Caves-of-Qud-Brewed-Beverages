@@ -15,9 +15,10 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_ABORT = "=capitalize==subject.the==subject.name= =verb:growl= in annoyance and =verb:abort= =pronouns.possessive= processes.";
         public const string MESSAGE_BREWING_CONTINUE_FINE = "=capitalize==subject.the==subject.name= =verb:hum= contentedly.";
         public const string MESSAGE_BREWING_CONTINUE_POOR = "=capitalize==subject.the==subject.name= =verb:hum= anxiously.";
-        public const string MESSAGE_BREWING_SUCCESS = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and dispense =liquid=.";
+        public const string MESSAGE_BREWING_SUCCESS = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense= =liquid=.";
         public const string MESSAGE_BREWING_SUCCESS_TRICKY = "=capitalize==subject.the==subject.name= =verb:chime= smugly and =verb:serve= up =liquid=.";
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
+        public const string MESSAGE_BREWING_HUH = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense=… nothing?";
         public const string MESSAGE_REFUSAL_WORKING = "=subject.The==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
@@ -188,21 +189,33 @@ namespace XRL.World.Parts
                 }
                 else
                 {
-                    var liquid = ParentObject.GetPart<LiquidVolume>();
-                    liquid.MixWith(new LiquidVolume(ActiveRecipe.Beverage, 1));
+                    var beverage = new LiquidVolume(ActiveRecipe.Beverage, 1);
 
-                    AddPlayerMessage(VariableReplace(
-                        (ActiveRecipe.Mistake ? MESSAGE_BREWING_FAILURE
-                                        : MESSAGE_BREWING_SUCCESS).Replace(
-                            "=liquid=",
-                            liquid.GetLiquidName()
-                        ),
-                        ParentObject
-                    ));
-
-                    if (ActiveRecipe.Mistake)
+                    if (beverage.IsEmpty())
                     {
-                        GetAnnoyed();
+                        AddPlayerMessage(VariableReplace(
+                            MESSAGE_BREWING_HUH,
+                            ParentObject
+                        ));
+                    }
+                    else
+                    {
+                        var liquid = ParentObject.GetPart<LiquidVolume>();
+                        liquid.MixWith(beverage);
+
+                        AddPlayerMessage(VariableReplace(
+                            (ActiveRecipe.Mistake ? MESSAGE_BREWING_FAILURE
+                                            : MESSAGE_BREWING_SUCCESS).Replace(
+                                "=liquid=",
+                                liquid.GetLiquidName()
+                            ),
+                            ParentObject
+                        ));
+
+                        if (ActiveRecipe.Mistake)
+                        {
+                            GetAnnoyed();
+                        }
                     }
 
                     ActiveRecipe = null;
