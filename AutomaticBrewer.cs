@@ -12,7 +12,6 @@ namespace XRL.World.Parts
         public const string TAG_BEVERAGE = MOD_PREFIX + "_Beverage";
         public const string MESSAGE_ACTIVATE = "=capitalize==subject.the==subject.name= =verb:activate= =object.the==object.name=.";
         public const string MESSAGE_BREWING_BEGIN = "=capitalize==subject.the==subject.name= =verb:whine= and =verb:grind= as =pronouns.subjective= =verb:gain:afterpronoun= momentum, then =verb:set= busily to work processing =pronouns.possessive= input.";
-        public const string MESSAGE_BREWING_ABORT = "=capitalize==subject.the==subject.name= =verb:growl= in annoyance and =verb:abort= =pronouns.possessive= processes.";
         public const string MESSAGE_BREWING_CONTINUE_FINE = "=capitalize==subject.the==subject.name= =verb:hum= contentedly.";
         public const string MESSAGE_BREWING_CONTINUE_POOR = "=capitalize==subject.the==subject.name= =verb:hum= anxiously.";
         public const string MESSAGE_BREWING_SUCCESS = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense= =liquid=.";
@@ -21,18 +20,20 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_HUH = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense=… nothing?";
         public const string MESSAGE_REFUSAL_WORKING = "=subject.The==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
+        public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
 
-        public static System.Random RandomGenerator = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
+        public static System.Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
 
         byte Annoyance = 0;
-        byte AggravationThreshold = (byte)RandomGenerator.Next(3, 11);
+        byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
         GameObject LastActivator = null;
         Recipe ActiveRecipe = null;
         byte TurnsLeft = 0;
 
         public void Activate()
         {
+            var inventory = ParentObject.GetPart<Inventory>();
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
             if (TurnsLeft > 0)
@@ -54,6 +55,12 @@ namespace XRL.World.Parts
                     ParentObject
                 ));
             }
+            else if (inventory.GetObjectCount() == 0) {
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_REFUSAL_INTAKE_EMPTY,
+                    ParentObject
+                ));
+            }
             else if (!liquid.IsEmpty())
             {
                 // Refuse to work because our dish has liquid in it already.
@@ -65,8 +72,9 @@ namespace XRL.World.Parts
             }
             else
             {
+                var inventoryObjects = inventory.GetObjects();
                 ActiveRecipe = null;
-                var triedIngredients = new SortedSet<string>(ParentObject.GetPart<Inventory>().GetObjects().ConvertAll(delegate (GameObject go)
+                var triedIngredients = new SortedSet<string>(inventoryObjects.ConvertAll(delegate (GameObject go)
                 {
                     return go.GetBlueprint().Name;
                 }));
@@ -88,6 +96,18 @@ namespace XRL.World.Parts
                 if (ActiveRecipe == null)
                 {
                     ActiveRecipe = new Recipe();
+                }
+
+                if (ActiveRecipe.Ingredients == null)
+                {
+                    inventoryObjects.GetRandomElement(RandomSource).Destroy();
+                }
+                else
+                {
+                    foreach (var ingredientBlueprint in ActiveRecipe.Ingredients)
+                    {
+                        inventory.FindObjectByBlueprint(ingredientBlueprint).Destroy();
+                    }
                 }
 
                 TurnsLeft = ActiveRecipe.Duration;
