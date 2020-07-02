@@ -1,8 +1,11 @@
+using System;                       // Random, Serializable
 using System.Collections.Generic;   // SortedSet
 using static XRL.UI.ConversationUI; // VariableReplace
 
 namespace XRL.World.Parts
 {
+
+    [Serializable]
     public class helado_BrewedBeverages_AutomaticBrewer : IPart
     {
         public const string MOD_PREFIX = "helado_Brewed Beverages";
@@ -23,7 +26,7 @@ namespace XRL.World.Parts
         public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
 
-        public static System.Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
+        public static Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
 
         byte Annoyance = 0;
         byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
