@@ -1,0 +1,24 @@
+<bodies>
+    <bodyparttypevariants>
+        <bodyparttypevariant VariantOf="Arm" Type="Cosmetic Outcrop" Description="Cosmetic Outcrop" Category="Metal" />
+        <bodyparttypevariant VariantOf="Hand" Type="Improvised Manipulator" Description="Improvised Manipulator" Category="Metal" />
+        <bodyparttypevariant VariantOf="Head" Type="Percolator" Description="Percolator" Category="Metal" />
+        <bodyparttypevariant VariantOf="Face" Type="Protective Plating" Description="Protective Plating" Category="Metal" />
+    </bodyparttypevariants>
+
+    <anatomies>
+        <anatomy Name="helado_AutomaticBrewer" Category="Metal" BodyDescription="Opaque Mechanism">
+            <part Type="Cosmetic Outcrop">
+                <part Type="Improvised Manipulator" />
+            </part>
+
+            <part Type="Percolator">
+                <part Type="Protective Plating" />
+            </part>
+
+            <part Type="Chassis" />
+            <part Type="Front Legs" Category="Metal" />
+            <part Type="Rear Legs" Category="Metal" />
+        </anatomy>
+    </anatomies>
+</bodies>

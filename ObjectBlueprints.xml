@@ -1,6 +1,5 @@
 <objects>
     <object Name="helado_Brewed Beverages_Automatic Brewer" Inherits="Furniture">
-        <!-- Parts -->
         <part Name="Render" DisplayName="automatic brewer" ColorString="&amp;c" DetailColor="C" RenderString="127" Tile="helado_brewer.png" Occluding="false" RenderIfDark="true" />
         <part Name="Description" Short="Lifeless, the exposed labyrinth of gears, rods, and tubes betray none of their secrets. But when the machine whirs into motion, =pronouns.possessive= deft processes outline only one, inevitable goal: the production of liquid sustenance." />
         <part Name="Physics" Weight="100" Takeable="false" />
@@ -12,15 +11,16 @@
         <part Name="Metal" />
         <part Name="helado_BrewedBeverages_AutomaticBrewer" />
 
-        <!-- Stats -->
         <stat Name="Hitpoints" Value="100" />
         <stat Name="AV" Value="12" />
 
-        <!-- Properties -->
         <property Name="DontWarnOnOpen" Value="true" />
         <intproperty Name="Inorganic" Value="1" />
 
-        <!-- Tags -->
+        <part Name="Animated" ChanceOneIn="200" />
+        <tag Name="Animatable" />
+        <tag Name="BodyType" Value="helado_AutomaticBrewer" />
+        <tag Name="AnimatedSkills" Value="CookingAndGathering,CookingAndGathering_Spicer" />
         <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
         <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
     </object>
