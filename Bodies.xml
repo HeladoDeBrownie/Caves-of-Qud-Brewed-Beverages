@@ -7,7 +7,7 @@
     </bodyparttypevariants>
 
     <anatomies>
-        <anatomy Name="helado_AutomaticBrewer" Category="Metal" BodyDescription="Opaque Mechanism">
+        <anatomy Name="helado_AutomaticBrewer" Category="Metal">
             <part Type="Cosmetic Outcrop">
                 <part Type="Improvised Manipulator" />
             </part>
