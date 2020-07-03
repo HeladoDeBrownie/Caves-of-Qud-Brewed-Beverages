@@ -1,5 +1,7 @@
-using System;                       // Random, Serializable
-using System.Collections.Generic;   // SortedSet
+using System; // Random, Serializable
+using System.Collections.Generic; // SortedSet
+using XRL.World.Effects; // helado_BrewedBeverages_Brewing
+using static XRL.World.Effects.helado_BrewedBeverages_Brewing; // BrewingEvent et al
 using static XRL.UI.ConversationUI; // VariableReplace
 
 namespace XRL.World.Parts
@@ -30,19 +32,16 @@ namespace XRL.World.Parts
 
         byte Annoyance = 0;
         byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
-        GameObject LastActivator = null;
-        Recipe ActiveRecipe = null;
-        byte TurnsLeft = 0;
 
-        public void Activate()
+        public void Activate(GameObject Activator = null)
         {
             var inventory = ParentObject.GetPart<Inventory>();
             var liquid = ParentObject.GetPart<LiquidVolume>();
 
-            if (TurnsLeft > 0)
+            if (ParentObject.HasEffect(typeof(helado_BrewedBeverages_Brewing)))
             {
                 // Refuse to work because we're already working!
-                GetAnnoyed();
+                GetAnnoyed(Activator);
 
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_WORKING,
@@ -58,7 +57,8 @@ namespace XRL.World.Parts
                     ParentObject
                 ));
             }
-            else if (inventory.GetObjectCount() == 0) {
+            else if (inventory.GetObjectCount() == 0)
+            {
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_INTAKE_EMPTY,
                     ParentObject
@@ -75,8 +75,8 @@ namespace XRL.World.Parts
             }
             else
             {
+                Recipe recipeToBrew = null;
                 var inventoryObjects = inventory.GetObjects();
-                ActiveRecipe = null;
                 var triedIngredients = new SortedSet<string>(inventoryObjects.ConvertAll(delegate (GameObject go)
                 {
                     return go.GetBlueprint().Name;
@@ -90,35 +90,18 @@ namespace XRL.World.Parts
 
                     if (recipe != null && recipe.Ingredients.SetEquals(triedIngredients))
                     {
-                        ActiveRecipe = recipe;
+                        recipeToBrew = recipe;
                         break;
                     }
                 }
 
                 // If no valid recipe was found, we're brewing putrescence :(
-                if (ActiveRecipe == null)
+                if (recipeToBrew == null)
                 {
-                    ActiveRecipe = new Recipe();
+                    recipeToBrew = new Recipe();
                 }
 
-                if (ActiveRecipe.Ingredients == null)
-                {
-                    inventoryObjects.GetRandomElement(RandomSource).Destroy();
-                }
-                else
-                {
-                    foreach (var ingredientBlueprint in ActiveRecipe.Ingredients)
-                    {
-                        inventory.FindObjectByBlueprint(ingredientBlueprint).Destroy();
-                    }
-                }
-
-                TurnsLeft = ActiveRecipe.Duration;
-
-                AddPlayerMessage(VariableReplace(
-                    MESSAGE_BREWING_BEGIN,
-                    ParentObject
-                ));
+                ParentObject.ApplyEffect(new helado_BrewedBeverages_Brewing(recipeToBrew, Activator));
             }
         }
 
@@ -127,7 +110,7 @@ namespace XRL.World.Parts
             return Annoyance >= AggravationThreshold;
         }
 
-        public void GetAnnoyed()
+        public void GetAnnoyed(GameObject Annoyer)
         {
             Annoyance++;
 
@@ -135,10 +118,10 @@ namespace XRL.World.Parts
             {
                 var brain = ParentObject.pBrain;
 
-                if (brain != null && LastActivator != null)
+                if (brain != null && Annoyer != null)
                 {
                     // We're mad now >:(
-                    brain.GetAngryAt(LastActivator);
+                    brain.GetAngryAt(Annoyer);
                 }
             }
         }
@@ -180,72 +163,79 @@ namespace XRL.World.Parts
             return base.WantEvent(ID, cascade) ||
                 ID == EndTurnEvent.ID ||
                 ID == GetInventoryActionsEvent.ID ||
-                ID == InventoryActionEvent.ID;
+                ID == InventoryActionEvent.ID ||
+                ID == BrewingStartedEvent.ID ||
+                ID == BrewingContinueEvent.ID ||
+                ID == BrewingFinishedEvent.ID;
         }
 
-        public override bool HandleEvent(EndTurnEvent E)
+        public bool HandleEvent(BrewingStartedEvent E)
         {
-            if (ActiveRecipe != null && TurnsLeft > 0) // currently brewing
+            var inventory = ParentObject.GetPart<Inventory>();
+
+            if (E.Recipe.Ingredients == null)
             {
-                TurnsLeft--;
-
-                if (TurnsLeft > 0)
+                inventory.GetObjects().GetRandomElement(RandomSource).Destroy();
+            }
+            else
+            {
+                foreach (var ingredientBlueprint in E.Recipe.Ingredients)
                 {
-                    if (ActiveRecipe.Mistake)
-                    {
-                        // We're not feeling so good :(
-
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_CONTINUE_POOR,
-                            ParentObject
-                        ));
-                    }
-                    else
-                    {
-                        // Hum de dum :)
-
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_CONTINUE_FINE,
-                            ParentObject
-                        ));
-                    }
-                }
-                else
-                {
-                    if (LiquidVolume.isValidLiquid(ActiveRecipe.Beverage))
-                    {
-                        var liquid = ParentObject.GetPart<LiquidVolume>();
-
-                        liquid.MixWith(
-                            new LiquidVolume(ActiveRecipe.Beverage, 1)
-                        );
-
-                        AddPlayerMessage(VariableReplace(
-                            (ActiveRecipe.Mistake ? MESSAGE_BREWING_FAILURE
-                                            : MESSAGE_BREWING_SUCCESS).Replace(
-                                "=liquid=",
-                                liquid.GetLiquidName()
-                            ),
-                            ParentObject
-                        ));
-
-                        if (ActiveRecipe.Mistake)
-                        {
-                            GetAnnoyed();
-                        }
-                    }
-                    else
-                    {
-                        AddPlayerMessage(VariableReplace(
-                            MESSAGE_BREWING_HUH,
-                            ParentObject
-                        ));
-                    }
-
-                    ActiveRecipe = null;
+                    inventory.FindObjectByBlueprint(ingredientBlueprint).Destroy();
                 }
             }
 
+            AddPlayerMessage(VariableReplace(
+                MESSAGE_BREWING_BEGIN,
+                ParentObject
+            ));
+
+            return true;
+        }
+
+        public bool HandleEvent(BrewingContinueEvent E)
+        {
+            AddPlayerMessage(VariableReplace(
+                E.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
+                                 : MESSAGE_BREWING_CONTINUE_FINE,
+                ParentObject
+            ));
+            return true;
+        }
+
+        public bool HandleEvent(BrewingFinishedEvent E)
+        {
+            if (LiquidVolume.isValidLiquid(E.Recipe.Beverage))
+            {
+                var liquid = ParentObject.GetPart<LiquidVolume>();
+
+                liquid.MixWith(
+                    new LiquidVolume(E.Recipe.Beverage, 1)
+                );
+
+                AddPlayerMessage(VariableReplace(
+                    (E.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
+                                      : MESSAGE_BREWING_SUCCESS).Replace(
+                        "=liquid=",
+                        liquid.GetLiquidName()
+                    ),
+                    ParentObject
+                ));
+
+                if (E.Recipe.Mistake)
+                {
+                    GetAnnoyed(E.Activator);
+                }
+            }
+            else
+            {
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_BREWING_HUH,
+                    ParentObject
+                ));
+            }
+
+            E.Recipe = null;
             return true;
         }
 
@@ -292,8 +282,7 @@ namespace XRL.World.Parts
                     AddPlayerMessage(message);
                 }
 
-                LastActivator = E.Actor;
-                Activate();
+                Activate(E.Actor);
                 return true;
             }
             else
