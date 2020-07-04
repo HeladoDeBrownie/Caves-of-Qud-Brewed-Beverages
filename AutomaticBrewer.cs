@@ -36,7 +36,7 @@ namespace XRL.World.Parts
         byte Annoyance = 0;
         byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
 
-        public void Activate(GameObject Activator = null)
+        public void Activate(GameObject activator = null)
         {
             var inventory = ParentObject.GetPart<Inventory>();
             var liquid = ParentObject.GetPart<LiquidVolume>();
@@ -44,7 +44,7 @@ namespace XRL.World.Parts
             if (ParentObject.HasEffect(typeof(helado_BrewedBeverages_Brewing)))
             {
                 // Refuse to work because we're already working!
-                GetAnnoyed(Activator);
+                GetAnnoyed(activator);
 
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_WORKING,
@@ -115,7 +115,7 @@ namespace XRL.World.Parts
                     recipeToBrew = new Recipe();
                 }
 
-                ParentObject.ApplyEffect(new helado_BrewedBeverages_Brewing(recipeToBrew, Activator));
+                ParentObject.ApplyEffect(new helado_BrewedBeverages_Brewing(recipeToBrew, activator));
             }
         }
 
@@ -124,7 +124,7 @@ namespace XRL.World.Parts
             return Annoyance >= AggravationThreshold;
         }
 
-        public void GetAnnoyed(GameObject Annoyer)
+        public void GetAnnoyed(GameObject annoyer)
         {
             Annoyance++;
 
@@ -132,25 +132,25 @@ namespace XRL.World.Parts
             {
                 var brain = ParentObject.pBrain;
 
-                if (brain != null && Annoyer != null)
+                if (brain != null && annoyer != null)
                 {
                     // We're mad now >:(
-                    brain.GetAngryAt(Annoyer);
+                    brain.GetAngryAt(annoyer);
                 }
             }
         }
 
-        public static Recipe ParseRecipe(GameObjectBlueprint Blueprint)
+        public static Recipe ParseRecipe(GameObjectBlueprint blueprint)
         {
             byte duration;
 
             if (
-                Blueprint.HasTag(TAG_RECIPE) &&
-                Blueprint.HasTag(TAG_INGREDIENTS) &&
-                Blueprint.HasTag(TAG_DURATION) &&
-                Blueprint.HasTag(TAG_BEVERAGE) &&
+                blueprint.HasTag(TAG_RECIPE) &&
+                blueprint.HasTag(TAG_INGREDIENTS) &&
+                blueprint.HasTag(TAG_DURATION) &&
+                blueprint.HasTag(TAG_BEVERAGE) &&
                 byte.TryParse(
-                    Blueprint.GetTag(TAG_DURATION),
+                    blueprint.GetTag(TAG_DURATION),
                     result: out duration
                 )
             )
@@ -158,11 +158,11 @@ namespace XRL.World.Parts
                 var recipe = new Recipe();
 
                 recipe.Ingredients = new SortedSet<string>(
-                    Blueprint.GetTag(TAG_INGREDIENTS).Split(',')
+                    blueprint.GetTag(TAG_INGREDIENTS).Split(',')
                 );
 
                 recipe.Duration = duration;
-                recipe.Beverage = Blueprint.GetTag(TAG_BEVERAGE);
+                recipe.Beverage = blueprint.GetTag(TAG_BEVERAGE);
                 recipe.Mistake = false;
                 return recipe;
             }
@@ -172,29 +172,29 @@ namespace XRL.World.Parts
             }
         }
 
-        public override bool WantEvent(int ID, int cascade)
+        public override bool WantEvent(int id, int cascade)
         {
-            return base.WantEvent(ID, cascade) ||
-                ID == EndTurnEvent.ID ||
-                ID == GetInventoryActionsEvent.ID ||
-                ID == InventoryActionEvent.ID ||
-                ID == BrewingStartedEvent.ID ||
-                ID == BrewingContinueEvent.ID ||
-                ID == BrewingFinishedEvent.ID ||
-                ID == BrewingInterruptedEvent.ID;
+            return base.WantEvent(id, cascade) ||
+                id == EndTurnEvent.ID ||
+                id == GetInventoryActionsEvent.ID ||
+                id == InventoryActionEvent.ID ||
+                id == BrewingStartedEvent.ID ||
+                id == BrewingContinueEvent.ID ||
+                id == BrewingFinishedEvent.ID ||
+                id == BrewingInterruptedEvent.ID;
         }
 
-        public bool HandleEvent(BrewingStartedEvent E)
+        public bool HandleEvent(BrewingStartedEvent e)
         {
             var inventory = ParentObject.GetPart<Inventory>();
 
-            if (E.Recipe.Ingredients == null)
+            if (e.Recipe.Ingredients == null)
             {
                 inventory.GetObjects().GetRandomElement(RandomSource).Destroy();
             }
             else
             {
-                foreach (var ingredientBlueprint in E.Recipe.Ingredients)
+                foreach (var ingredientBlueprint in e.Recipe.Ingredients)
                 {
                     inventory.FindObjectByBlueprint(ingredientBlueprint).Destroy();
                 }
@@ -208,28 +208,28 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public bool HandleEvent(BrewingContinueEvent E)
+        public bool HandleEvent(BrewingContinueEvent e)
         {
             AddPlayerMessage(VariableReplace(
-                E.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
+                e.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
                                  : MESSAGE_BREWING_CONTINUE_FINE,
                 ParentObject
             ));
             return true;
         }
 
-        public bool HandleEvent(BrewingFinishedEvent E)
+        public bool HandleEvent(BrewingFinishedEvent e)
         {
-            if (LiquidVolume.isValidLiquid(E.Recipe.Beverage))
+            if (LiquidVolume.isValidLiquid(e.Recipe.Beverage))
             {
                 var liquid = ParentObject.GetPart<LiquidVolume>();
 
                 liquid.MixWith(
-                    new LiquidVolume(E.Recipe.Beverage, 1)
+                    new LiquidVolume(e.Recipe.Beverage, 1)
                 );
 
                 AddPlayerMessage(VariableReplace(
-                    (E.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
+                    (e.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
                                       : MESSAGE_BREWING_SUCCESS).Replace(
                         "=liquid=",
                         liquid.GetLiquidName()
@@ -237,9 +237,9 @@ namespace XRL.World.Parts
                     ParentObject
                 ));
 
-                if (E.Recipe.Mistake)
+                if (e.Recipe.Mistake)
                 {
-                    GetAnnoyed(E.Activator);
+                    GetAnnoyed(e.Activator);
                 }
             }
             else
@@ -266,11 +266,11 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public override bool HandleEvent(GetInventoryActionsEvent E)
+        public override bool HandleEvent(GetInventoryActionsEvent e)
         {
             // List an activate option that makes us brew.
 
-            E.AddAction(
+            e.AddAction(
                 "Activate",         // internal menu option name
                 'a',                // shortcut key
                 false,
@@ -285,31 +285,31 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public override bool HandleEvent(InventoryActionEvent E)
+        public override bool HandleEvent(InventoryActionEvent e)
         {
-            if (E.Command == "Activate")
+            if (e.Command == "Activate")
             {
                 // We've been activated!
 
                 var message = VariableReplace(
                     MESSAGE_ACTIVATE,           // string to substitute in
-                    E.Actor,                    // subject
+                    e.Actor,                    // subject
                     null,
                     false,
                     ParentObject                // object
                 );
 
-                if (E.Actor.IsPlayer())
+                if (e.Actor.IsPlayer())
                 {
                     XRL.UI.Popup.Show(message);
-                    E.RequestInterfaceExit();
+                    e.RequestInterfaceExit();
                 }
                 else
                 {
                     AddPlayerMessage(message);
                 }
 
-                Activate(E.Actor);
+                Activate(e.Actor);
                 return true;
             }
             else

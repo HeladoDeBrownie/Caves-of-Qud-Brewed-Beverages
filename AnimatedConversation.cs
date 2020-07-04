@@ -24,10 +24,10 @@ namespace XRL.World.Parts
             }
         }
 
-        public override void Register(GameObject gameObject)
+        public override void Register(GameObject go)
         {
-            gameObject.RegisterPartEvent(this, "AIWakeupBroadcast");
-            base.Register(gameObject);
+            go.RegisterPartEvent(this, "AIWakeupBroadcast");
+            base.Register(go);
         }
 
         public override bool FireEvent(Event e)

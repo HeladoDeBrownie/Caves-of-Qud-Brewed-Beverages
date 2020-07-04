@@ -9,12 +9,12 @@ namespace XRL.World.Effects
         public Recipe Recipe = null;
         public GameObject Activator = null;
 
-        public helado_BrewedBeverages_Brewing(Recipe Recipe_, GameObject Activator_ = null)
+        public helado_BrewedBeverages_Brewing(Recipe recipe, GameObject activator = null)
         {
             DisplayName = "brewing";
-            Recipe = Recipe_;
+            Recipe = recipe;
             Duration = Recipe.Duration;
-            Activator = Activator_;
+            Activator = activator;
         }
 
         public override bool Apply(GameObject Go)
@@ -23,13 +23,13 @@ namespace XRL.World.Effects
             return true;
         }
 
-        public override bool WantEvent(int ID, int cascade)
+        public override bool WantEvent(int id, int cascade)
         {
-            return base.WantEvent(ID, cascade)
-                || ID == EndTurnEvent.ID;
+            return base.WantEvent(id, cascade)
+                || id == EndTurnEvent.ID;
         }
 
-        public override bool HandleEvent(EndTurnEvent E)
+        public override bool HandleEvent(EndTurnEvent e)
         {
             if (Object.UseCharge(CHARGE_COST_PER_TURN))
             {
@@ -59,12 +59,12 @@ namespace XRL.World.Effects
             public GameObject Activator = null;
 
             public BrewingEvent(
-                Recipe Recipe_ = null,
-                GameObject Activator_ = null
+                Recipe recipe = null,
+                GameObject activator = null
             )
             {
-                Recipe = Recipe_;
-                Activator = Activator_;
+                Recipe = recipe;
+                Activator = activator;
             }
 
             public override bool WantInvokeDispatch()
@@ -77,7 +77,7 @@ namespace XRL.World.Effects
         {
             public new static readonly int ID = MinEvent.AllocateID();
 
-            public BrewingStartedEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
+            public BrewingStartedEvent(Recipe recipe, GameObject activator) : base(recipe, activator)
             {
                 base.ID = BrewingStartedEvent.ID;
             }
@@ -86,7 +86,7 @@ namespace XRL.World.Effects
         {
             public new static readonly int ID = MinEvent.AllocateID();
 
-            public BrewingContinueEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
+            public BrewingContinueEvent(Recipe recipe, GameObject activator) : base(recipe, activator)
             {
                 base.ID = BrewingContinueEvent.ID;
             }
@@ -96,7 +96,7 @@ namespace XRL.World.Effects
         {
             public new static readonly int ID = MinEvent.AllocateID();
 
-            public BrewingFinishedEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
+            public BrewingFinishedEvent(Recipe recipe, GameObject activator) : base(recipe, activator)
             {
                 base.ID = BrewingFinishedEvent.ID;
             }
@@ -106,7 +106,7 @@ namespace XRL.World.Effects
         {
             public new static readonly int ID = MinEvent.AllocateID();
 
-            public BrewingInterruptedEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
+            public BrewingInterruptedEvent(Recipe recipe, GameObject activator) : base(recipe, activator)
             {
                 base.ID = BrewingInterruptedEvent.ID;
             }
