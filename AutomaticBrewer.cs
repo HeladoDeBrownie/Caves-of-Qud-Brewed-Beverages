@@ -23,10 +23,13 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_SUCCESS_TRICKY = "=capitalize==subject.the==subject.name= =verb:chime= smugly and =verb:serve= up =liquid=.";
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
         public const string MESSAGE_BREWING_HUH = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense=… nothing?";
+        public const string MESSAGE_BREWING_INTERRUPTED = "=capitalize==subject.the==subject.name= =verb:screech= and =verb:grind= suddenly to a halt.";
         public const string MESSAGE_REFUSAL_WORKING = "=subject.The==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
+        public const string MESSAGE_REFUSAL_NO_CHARGE = "=subject.The==subject.name= =verb:whine= near-inaudibly.";
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
         public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
+        public const int CHARGE_COST_TO_ACTIVATE = 5;
 
         public static Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
 
@@ -48,6 +51,15 @@ namespace XRL.World.Parts
                     ParentObject
                 ));
             }
+            else if (!ParentObject.UseCharge(CHARGE_COST_TO_ACTIVATE))
+            {
+                // Refuse to work because no charge is available.
+
+                AddPlayerMessage(VariableReplace(
+                    MESSAGE_REFUSAL_NO_CHARGE,
+                    ParentObject
+                ));
+            }
             else if (IsAggravated())
             {
                 // Refuse to work because we're too aggravated.
@@ -59,6 +71,8 @@ namespace XRL.World.Parts
             }
             else if (inventory.GetObjectCount() == 0)
             {
+                // Refuse to work because our intake is empty.
+
                 AddPlayerMessage(VariableReplace(
                     MESSAGE_REFUSAL_INTAKE_EMPTY,
                     ParentObject
@@ -75,9 +89,9 @@ namespace XRL.World.Parts
             }
             else
             {
+                // Let's get to work!
                 Recipe recipeToBrew = null;
-                var inventoryObjects = inventory.GetObjects();
-                var triedIngredients = new SortedSet<string>(inventoryObjects.ConvertAll(delegate (GameObject go)
+                var triedIngredients = new SortedSet<string>(inventory.GetObjects().ConvertAll(delegate (GameObject go)
                 {
                     return go.GetBlueprint().Name;
                 }));
@@ -95,9 +109,9 @@ namespace XRL.World.Parts
                     }
                 }
 
-                // If no valid recipe was found, we're brewing putrescence :(
                 if (recipeToBrew == null)
                 {
+                    // We're “brewing” putrescence :(
                     recipeToBrew = new Recipe();
                 }
 
@@ -166,7 +180,8 @@ namespace XRL.World.Parts
                 ID == InventoryActionEvent.ID ||
                 ID == BrewingStartedEvent.ID ||
                 ID == BrewingContinueEvent.ID ||
-                ID == BrewingFinishedEvent.ID;
+                ID == BrewingFinishedEvent.ID ||
+                ID == BrewingInterruptedEvent.ID;
         }
 
         public bool HandleEvent(BrewingStartedEvent E)
@@ -235,7 +250,16 @@ namespace XRL.World.Parts
                 ));
             }
 
-            E.Recipe = null;
+            return true;
+        }
+
+        public bool HandleEvent(BrewingInterruptedEvent e)
+        {
+            AddPlayerMessage(VariableReplace(
+                MESSAGE_BREWING_INTERRUPTED,
+                ParentObject
+            ));
+
             return true;
         }
 

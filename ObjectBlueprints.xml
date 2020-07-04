@@ -8,6 +8,8 @@
         <part Name="LiquidVolume" StartVolume="0" MaxVolume="1" />
         <part Name="TinkerItem" Bits="00457" CanDisassemble="true" CanBuild="false" CanRepair="true" />
         <part Name="Examiner" UnknownDisplayName="bizarre contraption" AlternateDisplayName="strange furniture" Complexity="3" />
+        <part Name="Capacitor" Charge="5" MaxCharge="5" ChargeDisplayStyle="" />
+        <part Name="ZeroPointEnergyCollector" ChargeRate="5" />
         <part Name="Metal" />
         <part Name="ConversationScript" ConversationID="helado_Brewed Beverages_Automatic Brewer" />
         <tag Name="NoTrade" />

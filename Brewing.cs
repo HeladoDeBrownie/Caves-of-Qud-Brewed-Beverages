@@ -4,6 +4,8 @@ namespace XRL.World.Effects
 {
     public class helado_BrewedBeverages_Brewing : Effect
     {
+        public static int CHARGE_COST_PER_TURN = 5;
+
         public Recipe Recipe = null;
         public GameObject Activator = null;
 
@@ -29,15 +31,23 @@ namespace XRL.World.Effects
 
         public override bool HandleEvent(EndTurnEvent E)
         {
-            Duration--;
-
-            if (Duration > 0)
+            if (Object.UseCharge(CHARGE_COST_PER_TURN))
             {
-                Object.HandleEvent(new BrewingContinueEvent(Recipe, Activator));
+                Duration--;
+
+                if (Duration > 0)
+                {
+                    Object.HandleEvent(new BrewingContinueEvent(Recipe, Activator));
+                }
+                else
+                {
+                    Object.HandleEvent(new BrewingFinishedEvent(Recipe, Activator));
+                }
             }
             else
             {
-                Object.HandleEvent(new BrewingFinishedEvent(Recipe, Activator));
+                Duration = 0;
+                Object.HandleEvent(new BrewingInterruptedEvent(Recipe, Activator));
             }
 
             return true;
@@ -89,6 +99,16 @@ namespace XRL.World.Effects
             public BrewingFinishedEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
             {
                 base.ID = BrewingFinishedEvent.ID;
+            }
+        }
+
+        public class BrewingInterruptedEvent : BrewingEvent
+        {
+            public new static readonly int ID = MinEvent.AllocateID();
+
+            public BrewingInterruptedEvent(Recipe Recipe, GameObject Activator) : base(Recipe, Activator)
+            {
+                base.ID = BrewingInterruptedEvent.ID;
             }
         }
     }
