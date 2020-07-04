@@ -255,6 +255,9 @@ namespace XRL.World.Parts
 
         public bool HandleEvent(BrewingInterruptedEvent e)
         {
+            // Our pipes are delicate :(
+            ParentObject.ApplyEffect(new Broken());
+
             AddPlayerMessage(VariableReplace(
                 MESSAGE_BREWING_INTERRUPTED,
                 ParentObject
