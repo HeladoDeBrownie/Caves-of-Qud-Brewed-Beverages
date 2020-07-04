@@ -7,4 +7,21 @@
             <choice GotoID="End">...</choice>
         </node>
     </conversation>
+
+    <conversation ID="helado_Brewed Beverages_Animated Automatic Brewer">
+        <node ID="Start">
+            <text>
+Oh dear. This is new.
+            </text>
+            <choice GotoID="What">What?</choice>
+            <choice GotoID="End">Live and... brew?</choice>
+        </node>
+
+        <node ID="What">
+            <text>
+I've never been alive before. I don't like it. It's distinctly uncomfortable.
+            </text>
+            <choice GotoID="End">My condolences, friend.</choice>
+        </node>
+    </conversation>
 </conversations>

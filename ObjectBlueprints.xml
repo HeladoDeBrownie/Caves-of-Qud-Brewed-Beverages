@@ -12,6 +12,7 @@
         <part Name="ConversationScript" ConversationID="helado_Brewed Beverages_Automatic Brewer" />
         <tag Name="NoTrade" />
         <part Name="helado_BrewedBeverages_AutomaticBrewer" />
+        <part Name="helado_BrewedBeverages_AnimatedConversation" ConversationID="helado_Brewed Beverages_Animated Automatic Brewer" />
 
         <stat Name="Hitpoints" Value="100" />
         <stat Name="AV" Value="12" />
@@ -21,6 +22,7 @@
 
         <part Name="Animated" ChanceOneIn="200" />
         <tag Name="Animatable" />
+        <tag Name="ForceAnimatable" />
         <tag Name="BodyType" Value="helado_AutomaticBrewer" />
         <tag Name="AnimatedSkills" Value="CookingAndGathering,CookingAndGathering_Spicer" />
         <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
