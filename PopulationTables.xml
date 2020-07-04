@@ -1,0 +1,8 @@
+<populations>
+    <population Name="helado_Brewed Beverages_Vinewafer Recipe Results">
+        <group Style="pickone">
+            <object Blueprint="water" Weight="100" />
+            <object Blueprint="wine" Weight="10" />
+        </group>
+    </population>
+</populations>

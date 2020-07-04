@@ -220,19 +220,28 @@ namespace XRL.World.Parts
 
         public bool HandleEvent(BrewingFinishedEvent e)
         {
+            var liquidVolume = ParentObject.GetPart<LiquidVolume>();
+
+            string beverage = null;
+
             if (LiquidVolume.isValidLiquid(e.Recipe.Beverage))
             {
-                var liquid = ParentObject.GetPart<LiquidVolume>();
+                beverage = e.Recipe.Beverage;
+            }
+            else if (PopulationManager.HasPopulation(e.Recipe.Beverage))
+            {
+                beverage = PopulationManager.RollOneFrom(e.Recipe.Beverage).Blueprint;
+            }
 
-                liquid.MixWith(
-                    new LiquidVolume(e.Recipe.Beverage, 1)
-                );
+            if (beverage != null && LiquidVolume.isValidLiquid(beverage))
+            {
+                liquidVolume.MixWith(new LiquidVolume(beverage, 1));
 
                 AddPlayerMessage(VariableReplace(
                     (e.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
                                       : MESSAGE_BREWING_SUCCESS).Replace(
                         "=liquid=",
-                        liquid.GetLiquidName()
+                        liquidVolume.GetLiquidName()
                     ),
                     ParentObject
                 ));
