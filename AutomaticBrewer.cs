@@ -15,6 +15,8 @@ namespace XRL.World.Parts
         public const string TAG_INGREDIENTS = MOD_PREFIX + "_Ingredients";
         public const string TAG_DURATION = MOD_PREFIX + "_Duration";
         public const string TAG_BEVERAGE = MOD_PREFIX + "_Beverage";
+        public const string TAG_MISTAKE = MOD_PREFIX + "_Mistake";
+        public const string TAG_TRICKY = MOD_PREFIX + "_Tricky";
         public const string MESSAGE_ACTIVATE = "=capitalize==subject.the==subject.name= =verb:activate= =object.the==object.name=.";
         public const string MESSAGE_BREWING_BEGIN = "=capitalize==subject.the==subject.name= =verb:whine= and =verb:grind= as =pronouns.subjective= =verb:gain:afterpronoun= momentum, then =verb:set= busily to work processing =pronouns.possessive= input.";
         public const string MESSAGE_BREWING_CONTINUE_FINE = "=capitalize==subject.the==subject.name= =verb:hum= contentedly.";
@@ -163,7 +165,8 @@ namespace XRL.World.Parts
 
                 recipe.Duration = duration;
                 recipe.Beverage = blueprint.GetTag(TAG_BEVERAGE);
-                recipe.Mistake = false;
+                recipe.Mistake = blueprint.HasTag(TAG_MISTAKE);
+                recipe.Tricky = blueprint.HasTag(TAG_TRICKY);
                 return recipe;
             }
             else
@@ -237,12 +240,12 @@ namespace XRL.World.Parts
             {
                 liquidVolume.MixWith(new LiquidVolume(beverage, 1));
 
+                var message = e.Recipe.Mistake  ? MESSAGE_BREWING_FAILURE
+                            : e.Recipe.Tricky   ? MESSAGE_BREWING_SUCCESS_TRICKY
+                                                : MESSAGE_BREWING_SUCCESS;
+
                 AddPlayerMessage(VariableReplace(
-                    (e.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
-                                      : MESSAGE_BREWING_SUCCESS).Replace(
-                        "=liquid=",
-                        liquidVolume.GetLiquidName()
-                    ),
+                    message.Replace("=liquid=", liquidVolume.GetLiquidName()),
                     ParentObject
                 ));
 
@@ -333,6 +336,7 @@ namespace XRL.World.Parts
             public byte Duration = 3;
             public string Beverage = "putrid";
             public bool Mistake = true;
+            public bool Tricky = false;
         }
     }
 }
