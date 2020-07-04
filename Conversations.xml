@@ -1,0 +1,10 @@
+<conversations>
+    <conversation ID="helado_Brewed Beverages_Automatic Brewer">
+        <node ID="Start">
+            <text>
+{{w|*The machine emanates personality, but without the accompanying ego. The disconnect is somewhat jarring.*}}
+            </text>
+            <choice GotoID="End">...</choice>
+        </node>
+    </conversation>
+</conversations>
