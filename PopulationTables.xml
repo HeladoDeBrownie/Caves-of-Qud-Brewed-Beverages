@@ -1,8 +1,24 @@
 <populations>
-    <population Name="helado_Brewed Beverages_Vinewafer Recipe Results">
+    <population Name="helado_Brewed Beverages_Starapple Recipe Results">
         <group Style="pickone">
-            <object Blueprint="water" Weight="100" />
+            <object Blueprint="cider" Weight="100" />
             <object Blueprint="wine" Weight="10" />
+        </group>
+    </population>
+
+    <population Name="helado_Brewed Beverages_Urberry Recipe Results">
+        <group Style="pickone">
+            <object Blueprint="cider" Weight="100" />
+            <object Blueprint="cloning" Weight="10" />
+            <object Blueprint="honey" Weight="100" />
+            <object Blueprint="water" Weight="100" />
+            <object Blueprint="wine" Weight="100" />
+        </group>
+    </population>
+
+    <population Name="helado_Brewed Beverages_Vinewafer Recipe Results">
+        <group Style="pickone" Chance="10">
+            <object Blueprint="water" Weight="100" />
         </group>
     </population>
 </populations>

@@ -36,10 +36,11 @@
         <tag Name="helado_Brewed Beverages_Recipe" />
     </object>
 
-    <object Name="helado_Brewed Beverages_Amaranthine Prism Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
-        <tag Name="helado_Brewed Beverages_Ingredients" Value="Cyclopean Prism" />
-        <tag Name="helado_Brewed Beverages_Duration" Value="23" />
-        <tag Name="helado_Brewed Beverages_Beverage" Value="neutronflux" />
+    <object Name="helado_Brewed Beverages_Large Stone Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Large Stone" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="31" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="blood" />
+        <tag Name="helado_Brewed Beverages_Tricky" />
     </object>
 
     <object Name="helado_Brewed Beverages_Luminous Hoarshroom Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
@@ -48,16 +49,23 @@
         <tag Name="helado_Brewed Beverages_Beverage" Value="convalessence" />
     </object>
 
+    <object Name="helado_Brewed Beverages_Small Stone Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Small Stone" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="31" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="blood" />
+        <tag Name="helado_Brewed Beverages_Tricky" />
+    </object>
+
     <object Name="helado_Brewed Beverages_Starapple Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
         <tag Name="helado_Brewed Beverages_Ingredients" Value="Starapple" />
         <tag Name="helado_Brewed Beverages_Duration" Value="5" />
-        <tag Name="helado_Brewed Beverages_Beverage" Value="cider" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="helado_Brewed Beverages_Starapple Recipe Results" />
     </object>
 
     <object Name="helado_Brewed Beverages_Urberry Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
         <tag Name="helado_Brewed Beverages_Ingredients" Value="Urberry" />
-        <tag Name="helado_Brewed Beverages_Duration" Value="10" />
-        <tag Name="helado_Brewed Beverages_Beverage" Value="wine" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="11" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="helado_Brewed Beverages_Urberry Recipe Results" />
     </object>
 
     <object Name="helado_Brewed Beverages_Vinewafer Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
