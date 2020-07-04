@@ -28,6 +28,8 @@ Here is the XML code for a sample recipe blueprint:
 
 To use this recipe, place at least one item whose blueprint name is `My Cool Item` into a brewer's intake, wait 10 turns, and it should dispense the liquid whose identifier is `mycoolliquid`.
 
+Instead of giving a fixed liquid for the `Beverage`, you can name a population table to generate a result from it. (The table must not have exactly the same name as a liquid or else the name will be interpreted as a liquid.)
+
 # Contributing
 
 Open an issue or send a pull request on [the project's Github repository](https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages). If you contribute code, make sure your contribution runs in-game.
