@@ -302,6 +302,7 @@ namespace XRL.World.Parts
             if (e.Command == "Activate")
             {
                 // We've been activated!
+                e.Actor.UseEnergy(1000);
 
                 var message = VariableReplace(
                     MESSAGE_ACTIVATE,           // string to substitute in
