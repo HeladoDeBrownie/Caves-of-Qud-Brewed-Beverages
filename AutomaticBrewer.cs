@@ -62,7 +62,7 @@ namespace XRL.World.Parts
                     ParentObject
                 ));
             }
-            else if (IsAggravated())
+            else if (IsAggravated() || ParentObject.IsHostileTowards(activator))
             {
                 // Refuse to work because we're too aggravated.
 
