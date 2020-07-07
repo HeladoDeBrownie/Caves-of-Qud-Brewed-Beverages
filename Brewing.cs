@@ -31,23 +31,23 @@ namespace XRL.World.Effects
 
         public override bool HandleEvent(EndTurnEvent e)
         {
-            if (Object.UseCharge(CHARGE_COST_PER_TURN))
-            {
-                Duration--;
+            Duration--;
 
-                if (Duration > 0)
+            if (Duration > 0)
+            {
+                if (Object.UseCharge(CHARGE_COST_PER_TURN))
                 {
                     Object.HandleEvent(new BrewingContinueEvent(Recipe, Activator));
                 }
                 else
                 {
-                    Object.HandleEvent(new BrewingFinishedEvent(Recipe, Activator));
+                    Duration = 0;
+                    Object.HandleEvent(new BrewingInterruptedEvent(Recipe, Activator));
                 }
             }
             else
             {
-                Duration = 0;
-                Object.HandleEvent(new BrewingInterruptedEvent(Recipe, Activator));
+                Object.HandleEvent(new BrewingFinishedEvent(Recipe, Activator));
             }
 
             return true;
