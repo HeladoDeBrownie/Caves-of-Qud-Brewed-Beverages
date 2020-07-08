@@ -31,12 +31,15 @@ namespace XRL.World.Parts
         public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
         public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
         public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
+        public const string MESSAGE_CONCILIATION = "=capitalize==subject.the==subject.name= =verb:ding= conciliatorily.";
         public const int CHARGE_COST_TO_ACTIVATE = 5;
 
         public static Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
 
-        byte Annoyance = 0;
-        byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
+        public byte Annoyance = 0;
+        public byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
+        public bool NeedsToCalmDown = false;
+        public long LastTurnTick = 0;
 
         public void Activate(GameObject activator = null)
         {
@@ -123,7 +126,7 @@ namespace XRL.World.Parts
 
         public bool IsAggravated()
         {
-            return Annoyance >= AggravationThreshold;
+            return NeedsToCalmDown || Annoyance >= AggravationThreshold;
         }
 
         public void GetAnnoyed(GameObject annoyer)
@@ -132,6 +135,7 @@ namespace XRL.World.Parts
 
             if (IsAggravated())
             {
+                NeedsToCalmDown = true;
                 var brain = ParentObject.pBrain;
 
                 if (brain != null && annoyer != null)
@@ -178,13 +182,65 @@ namespace XRL.World.Parts
         public override bool WantEvent(int id, int cascade)
         {
             return base.WantEvent(id, cascade) ||
-                id == EndTurnEvent.ID ||
                 id == GetInventoryActionsEvent.ID ||
                 id == InventoryActionEvent.ID ||
                 id == BrewingStartedEvent.ID ||
                 id == BrewingContinueEvent.ID ||
                 id == BrewingFinishedEvent.ID ||
                 id == BrewingInterruptedEvent.ID;
+        }
+
+        public override bool HandleEvent(GetInventoryActionsEvent e)
+        {
+            // List an activate option that makes us brew.
+
+            e.AddAction(
+                "Activate",         // internal menu option name
+                'a',                // shortcut key
+                false,
+                "{{W|a}}ctivate",   // display text
+                "Activate",         // internal command event name
+                0,
+                false,
+                false,              // does not work at a distance
+                true                // unless we have telekinesis
+            );
+
+            return true;
+        }
+
+        public override bool HandleEvent(InventoryActionEvent e)
+        {
+            if (e.Command == "Activate")
+            {
+                // We've been activated!
+                e.Actor.UseEnergy(1000);
+
+                var message = VariableReplace(
+                    MESSAGE_ACTIVATE,           // string to substitute in
+                    e.Actor,                    // subject
+                    null,
+                    false,
+                    ParentObject                // object
+                );
+
+                if (e.Actor.IsPlayer())
+                {
+                    XRL.UI.Popup.Show(message);
+                    e.RequestInterfaceExit();
+                }
+                else
+                {
+                    AddPlayerMessage(message);
+                }
+
+                Activate(e.Actor);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool HandleEvent(BrewingStartedEvent e)
@@ -240,9 +296,9 @@ namespace XRL.World.Parts
             {
                 liquidVolume.MixWith(new LiquidVolume(beverage, 1));
 
-                var message = e.Recipe.Mistake  ? MESSAGE_BREWING_FAILURE
-                            : e.Recipe.Tricky   ? MESSAGE_BREWING_SUCCESS_TRICKY
-                                                : MESSAGE_BREWING_SUCCESS;
+                var message = e.Recipe.Mistake ? MESSAGE_BREWING_FAILURE
+                             : e.Recipe.Tricky ? MESSAGE_BREWING_SUCCESS_TRICKY
+                                               : MESSAGE_BREWING_SUCCESS;
 
                 AddPlayerMessage(VariableReplace(
                     message.Replace("=liquid=", liquidVolume.GetLiquidName()),
@@ -278,57 +334,39 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public override bool HandleEvent(GetInventoryActionsEvent e)
+        public override bool WantTurnTick()
         {
-            // List an activate option that makes us brew.
-
-            e.AddAction(
-                "Activate",         // internal menu option name
-                'a',                // shortcut key
-                false,
-                "{{W|a}}ctivate",   // display text
-                "Activate",         // internal command event name
-                0,
-                false,
-                false,              // does not work at a distance
-                true                // unless we have telekinesis
-            );
-
             return true;
         }
 
-        public override bool HandleEvent(InventoryActionEvent e)
+        public override void TurnTick(long turnNumber)
         {
-            if (e.Command == "Activate")
+            if (LastTurnTick != 0 && NeedsToCalmDown)
             {
-                // We've been activated!
-                e.Actor.UseEnergy(1000);
+                var diff = turnNumber - LastTurnTick;
 
-                var message = VariableReplace(
-                    MESSAGE_ACTIVATE,           // string to substitute in
-                    e.Actor,                    // subject
-                    null,
-                    false,
-                    ParentObject                // object
-                );
-
-                if (e.Actor.IsPlayer())
+                for (var n = 0; n < diff; n++)
                 {
-                    XRL.UI.Popup.Show(message);
-                    e.RequestInterfaceExit();
-                }
-                else
-                {
-                    AddPlayerMessage(message);
-                }
+                    if (RandomSource.Next(100) == 0)
+                    {
+                        Annoyance--;
 
-                Activate(e.Actor);
-                return true;
+                        if (Annoyance == 0)
+                        {
+                            NeedsToCalmDown = false;
+
+                            AddPlayerMessage(VariableReplace(
+                                MESSAGE_CONCILIATION,
+                                ParentObject
+                            ));
+
+                            break;
+                        }
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            LastTurnTick = turnNumber;
         }
 
         public class Recipe
