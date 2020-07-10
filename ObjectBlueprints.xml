@@ -41,13 +41,13 @@
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Seed" Inherits="Snack">
-        <part Name="Render" DisplayName="gocoa seed" Tile="Creatures/sw_sowerseed.bmp" ColorString="&amp;w" DetailColor="W" />
+        <part Name="Render" DisplayName="gocoa seed" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
         <tag Name="Plant" />
         <part Name="PreservableItem" Result="helado_Brewed Beverages_Gocoa Bean" Number="1" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Bean" Inherits="Preservable">
-        <part Name="Render" DisplayName="gocoa bean" Tile="Creatures/sw_sowerseed.bmp" ColorString="&amp;w" DetailColor="W" />
+        <part Name="Render" DisplayName="gocoa bean" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
         <tag Name="Plant" />
     </object>
 
