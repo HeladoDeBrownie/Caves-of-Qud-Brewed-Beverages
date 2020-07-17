@@ -1,5 +1,6 @@
 <bodies>
     <bodyparttypevariants>
+        <bodyparttypevariant VariantOf="Body" Type="Opaque Mechanism" Description="Opaque Mechanism" Category="Metal" />
         <bodyparttypevariant VariantOf="Arm" Type="Cosmetic Outcrop" Description="Cosmetic Outcrop" Category="Metal" />
         <bodyparttypevariant VariantOf="Hand" Type="Improvised Manipulator" Description="Improvised Manipulator" Category="Metal" />
         <bodyparttypevariant VariantOf="Head" Type="Percolator" Description="Percolator" Category="Metal" />
@@ -7,7 +8,7 @@
     </bodyparttypevariants>
 
     <anatomies>
-        <anatomy Name="helado_AutomaticBrewer" Category="Metal">
+        <anatomy Name="helado_AutomaticBrewer" Category="Metal" BodyType="Opaque Mechanism">
             <part Type="Cosmetic Outcrop">
                 <part Type="Improvised Manipulator" />
             </part>
