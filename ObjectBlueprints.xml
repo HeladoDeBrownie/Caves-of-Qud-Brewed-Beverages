@@ -31,6 +31,12 @@
         <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
     </object>
 
+    <object Name="helado_Brewed Beverages_Automatic Brewer Manual" Inherits="Book">
+        <part Name="Render" DisplayName="{{W|Your Brand New All-Purpose {{rainbow|Unibrew}}: Care and Feeding}}" ColorString="&amp;c" RenderString="=" RenderLayer="5" Tile="Items/sw_book2.bmp" DetailColor="y" />
+        <part Name="Book" ID="helado_Brewed Beverages_Automatic Brewer Manual" />
+        <part Name="Commerce" Value="1000" />
+    </object>
+
     <!-- Plants -->
 
     <object Name="helado_Brewed Beverages_Gocoa Plant" Inherits="Plant">
