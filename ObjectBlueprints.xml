@@ -40,20 +40,20 @@
     <!-- Plants -->
 
     <object Name="helado_Brewed Beverages_Gocoa Plant" Inherits="Plant">
-        <part Name="Render" DisplayName="gocoa shrub" RenderString="244" ColorString="&amp;w" Tile="Assets_Content_Textures_Tiles_sw_watervine1.bmp" DetailColor="g" Occluding="true" />
+        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} shrub}}" RenderString="244" ColorString="&amp;w" Tile="Assets_Content_Textures_Tiles_sw_watervine1.bmp" DetailColor="g" Occluding="true" />
         <part Name="Description" Short="An evolutionary oddity, this plant burns kinetic energy not for the sake of its own survival, but rather by depositing it into the berry-like growths hanging from its limbs, ripe for eating by other creatures." />
         <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:30" RipeColor="&amp;g" RipeTileColor="&amp;w" RipeDetailColor="g" UnripeColor="&amp;K" UnripeTileColor="&amp;w" UnripeDetailColor="K" />
         <tag Name="HangingSupport" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Seed" Inherits="Snack">
-        <part Name="Render" DisplayName="gocoa seed" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
+        <part Name="Render" DisplayName="{{g|{{b-B sequence|gocoa}} seed}}" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
         <tag Name="Plant" />
         <part Name="PreservableItem" Result="helado_Brewed Beverages_Gocoa Bean" Number="1" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Bean" Inherits="Preservable">
-        <part Name="Render" DisplayName="gocoa bean" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
+        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} bean}}" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
         <tag Name="Plant" />
     </object>
 
