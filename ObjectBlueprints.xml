@@ -55,6 +55,7 @@
     <object Name="helado_Brewed Beverages_Gocoa Bean" Inherits="Preservable">
         <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} bean}}" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
         <tag Name="Plant" />
+        <part Name="PreparedCookingIngredient" type="quicknessMinor" charges="1" />
     </object>
 
     <!-- Recipes -->

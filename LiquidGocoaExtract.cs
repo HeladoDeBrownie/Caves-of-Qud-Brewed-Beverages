@@ -58,5 +58,10 @@ namespace XRL.Liquids
         {
             return 100;
         }
+
+        public override string GetPreparedCookingIngredient()
+        {
+            return "quicknessMinor"; // TODO
+        }
     }
 }
