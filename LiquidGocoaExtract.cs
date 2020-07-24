@@ -61,7 +61,7 @@ namespace XRL.Liquids
 
         public override string GetPreparedCookingIngredient()
         {
-            return "quicknessMinor"; // TODO
+            return "helado_Brewed Beverages_Gocoa Extract";
         }
     }
 }

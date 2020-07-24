@@ -58,6 +58,15 @@
         <part Name="PreparedCookingIngredient" type="quicknessMinor" charges="1" />
     </object>
 
+    <!-- Cooking -->
+
+    <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract">
+        <tag Name="Units" Value="helado_BrewedBeverages_CookingDomainGocoa_Unit" />
+        <tag Name="Description" Value="gocoa-based" />
+        <tag Name="RandomWeight" Value="0" />
+
+    </object>
+
     <!-- Recipes -->
 
     <object Name="helado_Brewed Beverages_Base Recipe" Inherits="DataBucket">
