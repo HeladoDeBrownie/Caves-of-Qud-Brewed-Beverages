@@ -102,7 +102,9 @@ namespace XRL.World.Parts
                 }));
 
                 foreach (var blueprint in
-                    GameObjectFactory.Factory.GetBlueprintsWithTag(TAG_RECIPE)
+                    GameObjectFactory.Factory.GetBlueprintsWithTag(
+                        TAG_RECIPE
+                    ).Shuffle(RandomSource)
                 )
                 {
                     var recipe = ParseRecipe(blueprint);
