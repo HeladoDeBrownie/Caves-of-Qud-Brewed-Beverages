@@ -1,7 +1,6 @@
 <books>
     <book ID="helado_Brewed Beverages_Automatic Brewer Manual" Title="{{W|Your Brand New All-Purpose {{rainbow|Omnibrew}}: Care and Feeding}}">
         <page>
-
 Gre   ngs and welc    to the fa  ly! If yo      holding t     ook, that must
   an you are the  roud owne  of a brand n w, shiny, ch  me {{rainbow|Omn  rew}}! To get
   you s arted,
@@ -22,13 +21,28 @@ which this   nual is w   ten is specia ly adapte     deliver this
 in      ion. T  n the page!
         </page>
         <page>
-[TODO: list some recipes]
+1 fres  v newafer     : 1 dra  of {{B|fr shwat  }} (som times)
+1 s ara ple           : 1  ram  f {{cider|ci er}}
+1 lumin  s h  rshro m :   dram of {{C|con a es ens }}
+1 u be ry             : 1 d am o  {{B| reshw ter}}, {{cider|cid  }}, {{w|ho  y}}, {{m|wine}}, or
+                        (v r  rar l ) {{cloning|c   i  drau  t}}
+1 goc a bean          :     a  of {{b-B sequence|g coa ex ra t}}
+1 s all/lar e  ton    : {{r|??? ?}}
+
+{{c|Not :}} The   may    othe  reci    that   ren't dete  ed.
         </page>
         <page>
-{{C|Frequently Asked Questions}}
+{{C|Fre  ent y As  d Q est ons}}
 
-Q: Does m  {{rainbow|O nibrew}} ac   lly require feeding?
-A: No. Pleas  onl  insert objects t at you m  n to brew.
+{{K|Q:}} Does m  {{rainbow|O nibrew}} ac   lly require feeding?
+{{K|A:}} No. Pleas  onl  insert objects t at you m  n to brew.
+
+{{K|Q:}} W o can I co tac  for cust  er serv  e  nd mainte   ce?
+{{K|A:}} Do  t w rry, if the   is a pr  lem w th you  {{rainbow|Omn  rew}} the  {{Y|we}} wi l
+   con   t {{Y|you}}!
+
+{{K|Q:}} I m  ot sati   ed wi h my {{rainbow|Omnib ew}}. Ca  I re   n it?
+{{K|A:}} No.
         </page>
     </book>
 </books>
