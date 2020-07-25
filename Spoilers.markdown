@@ -46,6 +46,8 @@ Each recipe produces 1 dram of liquid and requires that nothing besides the list
 
 - A vinewafer sometimes makes fresh water.
 - A starapple makes cider.
+- A dreadroot tuber makes asphalt.
+- A qudzu stem makes brown sludge.
 - A luminous hoarshroom makes convalessence.
 - An urberry makes cider, honey, water, wine, or, rarely, cloning draught.
 - A gocoa bean makes gocoa extract.

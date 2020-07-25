@@ -76,6 +76,12 @@
         <tag Name="helado_Brewed Beverages_Recipe" />
     </object>
 
+    <object Name="helado_Brewed Beverages_Deadroot Tuber Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Dreadroot Tuber" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="7" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="asphalt" />
+    </object>
+
     <object Name="helado_Brewed Beverages_Gocoa Bean Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
         <tag Name="helado_Brewed Beverages_Ingredients" Value="helado_Brewed Beverages_Gocoa Bean" />
         <tag Name="helado_Brewed Beverages_Duration" Value="19" />
@@ -93,6 +99,12 @@
         <tag Name="helado_Brewed Beverages_Ingredients" Value="Hoarshroom" />
         <tag Name="helado_Brewed Beverages_Duration" Value="3" />
         <tag Name="helado_Brewed Beverages_Beverage" Value="convalessence" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Qudzu Stem Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Qudzu Stem" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="7" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="sludge" />
     </object>
 
     <object Name="helado_Brewed Beverages_Small Stone Recipe" Inherits="helado_Brewed Beverages_Base Recipe">
