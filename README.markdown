@@ -1,4 +1,4 @@
-Brewed Beverages is a Caves of Qud mod that adds the automatic brewer, a machine that brews delicious (and not-so-delicious) beverages! Unfortunately, the manual has been lost to time.
+Brewed Beverages is a Caves of Qud mod that adds the automatic brewer, a machine that brews delicious (and not-so-delicious) beverages! Unfortunately, the manual has probably been lost to time.
 
 Find one on every run in Dardi's kitchen!
 

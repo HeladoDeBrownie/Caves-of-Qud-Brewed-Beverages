@@ -117,4 +117,11 @@
         <tag Name="helado_Brewed Beverages_Duration" Value="3" />
         <tag Name="helado_Brewed Beverages_Beverage" Value="helado_Brewed Beverages_Vinewafer Recipe Results" />
     </object>
+
+    <!-- Debug -->
+
+    <object Name="helado_Brewed Beverages_Gocoa Extract Phial" Inherits="Phial">
+        <part Name="LiquidVolume" StartVolume="1" InitialLiquid="gocoaextract-1000" />
+        <tag Name="ExcludeFromDynamicEncounters" Value="*noinherit" />
+    </object>
 </objects>
