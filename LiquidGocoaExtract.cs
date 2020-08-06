@@ -63,5 +63,23 @@ namespace XRL.Liquids
         {
             return "helado_Brewed Beverages_Gocoa Extract";
         }
+
+        public override void ObjectEnteredCell(LiquidVolume Liquid, ObjectEnteredCellEvent E)
+        {
+            var go = E.Object;
+
+            if (Liquid.IsOpenVolume() && go.HasPart("Body"))
+            {
+                go.Move(XRL.Rules.Directions.GetRandomDirection(), true, EnergyCost: 0);
+
+                if (go.IsPlayer() && go.CurrentZone != null)
+                {
+                    go.CurrentZone.SetActive();
+                }
+
+                go.ParticleText("!", 'b', false, 1.5f, -8f);
+                IPart.XDidYToZ(go, "slip", "on", Liquid.ParentObject, null, "!");
+            }
+        }
     }
 }
