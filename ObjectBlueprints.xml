@@ -63,7 +63,7 @@
 
     <!-- Cooking -->
 
-    <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract">
+    <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract" Inherits="IngredientMapping">
         <tag Name="Units" Value="helado_BrewedBeverages_CookingDomainGocoa_Unit" />
         <tag Name="Description" Value="leaping-based" />
         <tag Name="RandomWeight" Value="0" />
