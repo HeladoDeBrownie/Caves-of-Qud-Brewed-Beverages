@@ -70,13 +70,7 @@ namespace XRL.Liquids
 
             if (Liquid.IsOpenVolume() && go.HasPart("Body"))
             {
-                go.Move(XRL.Rules.Directions.GetRandomDirection(), true, EnergyCost: 0);
-
-                if (go.IsPlayer() && go.CurrentZone != null)
-                {
-                    go.CurrentZone.SetActive();
-                }
-
+                go.Move(E.Direction, true, EnergyCost: 0);
                 go.ParticleText("!", 'b', false, 1.5f, -8f);
                 IPart.XDidYToZ(go, "slip", "on", Liquid.ParentObject, null, "!");
             }
