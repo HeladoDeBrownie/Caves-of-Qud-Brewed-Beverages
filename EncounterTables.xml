@@ -4,4 +4,10 @@
             <object Chance="5" Number="1d1" Blueprint="helado_Brewed Beverages_Automatic Brewer Manual" />
         </objects>
     </encountertable>
+
+    <encountertable Name="JungleVegitation" Load="Merge">
+        <objects>
+            <object Chance="5" Number="2d3+1" Blueprint="helado_Brewed Beverages_Gocoa Plant" />
+        </objects>
+    </encountertable>
 </encountertables>
