@@ -56,7 +56,7 @@ namespace XRL.Liquids
 
         public override float GetValuePerDram()
         {
-            return 100;
+            return 50;
         }
 
         public override string GetPreparedCookingIngredient()

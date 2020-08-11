@@ -12,53 +12,56 @@
         <part Name="ZeroPointEnergyCollector" ChargeRate="5" />
         <part Name="Metal" />
         <part Name="ConversationScript" ConversationID="helado_Brewed Beverages_Automatic Brewer" />
-        <tag Name="NoTrade" />
+        <part Name="Animated" ChanceOneIn="200" />
         <part Name="helado_BrewedBeverages_AutomaticBrewer" />
         <part Name="helado_BrewedBeverages_AnimatedConversation" ConversationID="helado_Brewed Beverages_Animated Automatic Brewer" />
 
-        <stat Name="Hitpoints" Value="100" />
         <stat Name="AV" Value="12" />
+        <stat Name="Hitpoints" Value="100" />
 
         <property Name="DontWarnOnOpen" Value="true" />
         <intproperty Name="Inorganic" Value="1" />
 
-        <part Name="Animated" ChanceOneIn="200" />
         <tag Name="Animatable" />
-        <tag Name="ForceAnimatable" />
-        <tag Name="BodyType" Value="helado_AutomaticBrewer" />
         <tag Name="AnimatedSkills" Value="CookingAndGathering,CookingAndGathering_Spicer" />
-        <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
+        <tag Name="BodyType" Value="helado_AutomaticBrewer" />
+        <tag Name="DynamicObjectsTable:AnimatableFurniture" />
+        <tag Name="ForceAnimatable" />
         <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
+        <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
+        <tag Name="NoTrade" />
     </object>
 
     <object Name="helado_Brewed Beverages_Automatic Brewer Manual" Inherits="Book">
         <part Name="Render" DisplayName="{{W|Your Brand New All-Purpose {{rainbow|Unibrew}}: Care and Feeding}}" ColorString="&amp;c" RenderString="=" RenderLayer="5" Tile="Items/sw_book2.bmp" DetailColor="y" />
+        <part Name="Description" Short="Only the letters engraved on the cover have resisted entropy to any appreciable degree. The pages sing of a time and place foreign to this world, forever gone." />
         <part Name="Book" ID="helado_Brewed Beverages_Automatic Brewer Manual" />
-        <part Name="Commerce" Value="1000" />
+        <part Name="Commerce" Value="500" />
     </object>
 
     <!-- Plants -->
 
     <object Name="helado_Brewed Beverages_Gocoa Plant" Inherits="Plant">
-        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} shrub}}" RenderString="244" ColorString="&amp;w" Tile="Assets_Content_Textures_Tiles_sw_watervine1.bmp" DetailColor="g" Occluding="true" />
+        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} shrub}}" ColorString="&amp;b" DetailColor="B" Tile="Assets_Content_Textures_Tiles_sw_watervine1.bmp" />
         <part Name="Description" Short="An evolutionary oddity, this plant burns kinetic energy not for the sake of its own survival, but rather by depositing it into the pod-like growths hanging from its limbs, ripe for eating by other creatures." />
-        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:30" RipeColor="&amp;g" RipeTileColor="&amp;w" RipeDetailColor="g" UnripeColor="&amp;K" UnripeTileColor="&amp;w" UnripeDetailColor="K" />
+        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:5" RipeColor="&amp;g" RipeTileColor="&amp;w" RipeDetailColor="g" UnripeColor="&amp;K" UnripeTileColor="&amp;w" UnripeDetailColor="K" />
         <tag Name="HangingSupport" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Seed" Inherits="Snack">
         <part Name="Render" DisplayName="{{g|{{b-B sequence|gocoa}} seed}}" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
         <part Name="Description" Short="The pod-like outgrowth of a gocoa plant, quietly brimming with kinetic energy." />
-        <tag Name="Plant" />
         <part Name="PreservableItem" Result="helado_Brewed Beverages_Gocoa Bean" Number="1" />
+
+        <tag Name="Plant" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Bean" Inherits="Preservable">
         <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} bean}}" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
-        <part Name="Render" DisplayName="{{g|{{b-B sequence|gocoa}} seed}}" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
         <part Name="Description" Short="The pod-like outgrowth of a gocoa plant, surging with kinetic energy." />
-        <tag Name="Plant" />
         <part Name="PreparedCookingIngredient" type="quicknessMinor" charges="1" />
+
+        <tag Name="Plant" />
     </object>
 
     <!-- Cooking -->
@@ -66,7 +69,7 @@
     <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract" Inherits="IngredientMapping">
         <tag Name="Units" Value="helado_BrewedBeverages_CookingDomainGocoa_Unit" />
         <tag Name="Description" Value="leaping-based" />
-        <tag Name="RandomWeight" Value="0" />
+        <tag Name="RandomWeight" Value="0" /><!-- Don't select this for random recipes. -->
     </object>
 
     <!-- Brewing -->
@@ -136,6 +139,7 @@
 
     <object Name="helado_Brewed Beverages_Gocoa Extract Phial" Inherits="Phial">
         <part Name="LiquidVolume" StartVolume="1" InitialLiquid="gocoaextract-1000" />
+
         <tag Name="ExcludeFromDynamicEncounters" Value="*noinherit" />
     </object>
 </objects>
