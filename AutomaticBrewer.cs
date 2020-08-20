@@ -34,12 +34,26 @@ namespace XRL.World.Parts
         public const string MESSAGE_CONCILIATION = "=capitalize==subject.the==subject.name= =verb:ding= conciliatorily.";
         public const int CHARGE_COST_TO_ACTIVATE = 5;
 
-        public static Random RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
+        public static Random RandomSource = null;
 
         public byte Annoyance = 0;
-        public byte AggravationThreshold = (byte)RandomSource.Next(3, 11);
+        public byte AggravationThreshold;
         public bool NeedsToCalmDown = false;
         public long LastTurnTick = 0;
+
+        // Reset the random source before each game starts.
+        [XRL.GameBasedCacheInit]
+        public static void InitializeRandomSource() {
+            RandomSource = null;
+        }
+
+        public helado_BrewedBeverages_AutomaticBrewer() {
+            if (RandomSource == null) {
+                RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(MOD_PREFIX);
+            }
+
+            AggravationThreshold = (byte)RandomSource.Next(3, 11);
+        }
 
         public void Activate(GameObject activator = null)
         {

@@ -3,7 +3,6 @@
     stationary space-time vortex.
 */
 
-using static UnityEngine.Debug;
 using XRL;
 
 [HasModSensitiveStaticCache]
