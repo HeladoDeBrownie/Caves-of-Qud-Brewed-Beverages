@@ -45,14 +45,17 @@
     <!-- Plants -->
 
     <object Name="helado_Brewed Beverages_Gocoa Plant" Inherits="Plant">
-        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} shrub}}" ColorString="&amp;b" DetailColor="B" Tile="Assets_Content_Textures_Tiles_sw_watervine1.bmp" />
+        <part Name="Render" DisplayName="{{w|{{B-w-g sequence|gocoa}} stalk}}" ColorString="&amp;B" DetailColor="w" Tile="helado_cane-with-sprouts.png" />
         <part Name="Description" Short="An evolutionary oddity, this plant burns kinetic energy not for the sake of its own survival, but rather by depositing it into the pod-like growths hanging from its limbs, ripe for eating by other creatures." />
-        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:5" RipeColor="&amp;g" RipeTileColor="&amp;w" RipeDetailColor="g" UnripeColor="&amp;K" UnripeTileColor="&amp;w" UnripeDetailColor="K" />
+        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:5" UnripeColor="&amp;w" UnripeTileColor="&amp;B" UnripeDetailColor="w" RipeColor="&amp;g" RipeTileColor="&amp;B" RipeDetailColor="g" />
+
+        <tag Name="DynamicObjectsTable:Jungle_FarmablePlants" />
+        <tag Name="DynamicObjectsTable:Jungle_Plants" />
         <tag Name="HangingSupport" />
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Seed" Inherits="Snack">
-        <part Name="Render" DisplayName="{{g|{{b-B sequence|gocoa}} seed}}" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
+        <part Name="Render" DisplayName="{{g|{{g-G sequence|gocoa}} seed}}" Tile="helado_bean.png" ColorString="&amp;g" DetailColor="G" />
         <part Name="Description" Short="The pod-like outgrowth of a gocoa plant, quietly brimming with kinetic energy." />
         <part Name="PreservableItem" Result="helado_Brewed Beverages_Gocoa Bean" Number="1" />
 
@@ -60,7 +63,7 @@
     </object>
 
     <object Name="helado_Brewed Beverages_Gocoa Bean" Inherits="Preservable">
-        <part Name="Render" DisplayName="{{w|{{b-B sequence|gocoa}} bean}}" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
+        <part Name="Render" DisplayName="{{w|{{w-W sequence|gocoa}} bean}}" Tile="helado_bean.png" ColorString="&amp;w" DetailColor="W" />
         <part Name="Description" Short="The pod-like outgrowth of a gocoa plant, surging with kinetic energy." />
         <part Name="PreparedCookingIngredient" type="quicknessMinor" charges="1" />
 

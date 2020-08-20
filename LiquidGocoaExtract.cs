@@ -9,7 +9,7 @@ namespace XRL.Liquids
     public class helado_LiquidGocoaExtract : BaseLiquid
     {
         public new const string ID = "gocoaextract";
-        public const string ADJECTIVE = "{{b-B sequence|fast}}";
+        public const string ADJECTIVE = "{{B-b sequence|fast}}";
 
         public static List<string> Colors = new List<string>(2)
         {
@@ -21,7 +21,7 @@ namespace XRL.Liquids
 
         public override string GetName(LiquidVolume _)
         {
-            return "{{b-B sequence|gocoa extract}}";
+            return "{{B-b sequence|gocoa extract}}";
         }
 
         public override string GetAdjective(LiquidVolume _)
@@ -41,7 +41,7 @@ namespace XRL.Liquids
 
         public override string GetStainedName(LiquidVolume _)
         {
-            return "{{b-B sequence|gocoa}}";
+            return "{{B-b sequence|gocoa}}";
         }
 
         public override string GetColor()
@@ -71,7 +71,7 @@ namespace XRL.Liquids
             if (Liquid.IsOpenVolume() && go.HasPart("Body"))
             {
                 go.Move(E.Direction, true, EnergyCost: 0);
-                go.ParticleText("!", 'b', false, 1.5f, -8f);
+                go.ParticleText("!", 'B', false, 1.5f, -8f);
                 IPart.XDidYToZ(go, "slip", "on", Liquid.ParentObject, null, "!");
             }
         }
