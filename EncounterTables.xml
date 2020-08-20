@@ -10,4 +10,10 @@
             <object Chance="5" Number="2d3+1" Blueprint="helado_Brewed Beverages_Gocoa Plant" />
         </objects>
     </encountertable>
+
+    <encountertable Name="WaterVegitation" Load="Merge">
+        <objects>
+            <object Chance="7" Number="2d4+1" Blueprint="helado_Brewed Beverages_Gocoa Plant" />
+        </objects>
+    </encountertable>
 </encountertables>
