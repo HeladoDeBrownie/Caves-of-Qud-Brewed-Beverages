@@ -1,7 +1,8 @@
-{ "workshopId": 2153954750
-, "Title": "Brewed Beverages"
-, "Description": "Brewed Beverages is a Caves of Qud mod that adds the automatic brewer, a machine that brews delicious (and not-so-delicious) beverages! Unfortunately, the manual has been lost to time.\n\nFind one on every run in Dardi's kitchen!\n\nSee spoilers and more at: https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages"
-, "Tags": "liquids,scripting"
-, "Visibility": "2"
-, "ImagePath": "preview.png"
+{
+    "workshopId": 2153954750,
+    "Title": "Brewed Beverages",
+    "Description": "Brewed Beverages is a Caves of Qud mod that adds the automatic brewer, a machine that brews delicious (and not-so-delicious) beverages! Unfortunately, the manual has been lost to time.\n\nFind one on every run in Dardi's kitchen!\n\nSee spoilers and more at: https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages",
+    "Tags": "Artifact,Liquid,Script",
+    "ImagePath": "preview.png",
+    "Visibility": "2"
 }
