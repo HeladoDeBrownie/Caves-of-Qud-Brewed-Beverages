@@ -1,4 +1,16 @@
 <populations>
+    <!-- # Encounters -->
+
+    <population Name="CommonOddEncounters" Load="Merge">
+        <group Name="Types" Load="Merge">
+            <group Name="Rift" Load="Merge">
+                <object Blueprint="helado_Brewed Beverages_Automatic Brewer" Number="1" Chance="5" />
+            </group>
+        </group>
+    </population>
+
+    <!-- # Automatic Brewer Recipe Results -->
+
     <population Name="helado_Brewed Beverages_Starapple Recipe Results">
         <group Style="pickone">
             <object Blueprint="cider" Weight="100" />
