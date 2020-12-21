@@ -3,8 +3,20 @@
 
     <population Name="CommonOddEncounters" Load="Merge">
         <group Name="Types" Load="Merge">
-            <group Name="Rift" Load="Merge">
-                <object Blueprint="helado_Brewed Beverages_Automatic Brewer" Number="1" Chance="5" />
+            <group Name="helado_Brewed Beverages_Automatic Brewer" Weight="1000000">
+                <object Blueprint="helado_Brewed Beverages_Automatic Brewer" Number="1" Chance="100" />
+
+                <group Name="Ingredience" Style="pickone">
+                    <object Blueprint="Dreadroot Tuber" Number="1-10" Weight="100" />
+                    <object Blueprint="helado_Brewed Beverages_Gocoa Bean" Number="1-10" Weight="10" />
+                    <object Blueprint="Hoarshroom" Number="1-10" Weight="100" />
+                    <object Blueprint="Large Stone" Number="1-10" Weight="10" />
+                    <object Blueprint="Qudzu Stem" Number="1-10" Weight="100" />
+                    <object Blueprint="Small Stone" Number="1-10" Weight="10" />
+                    <object Blueprint="Starapple" Number="1-10" Weight="100" />
+                    <object Blueprint="Vinewafer" Number="1-100" Weight="100" />
+                    <object Blueprint="Urberry" Number="1-10" Weight="10" />
+                </group>
             </group>
         </group>
     </population>
