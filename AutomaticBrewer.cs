@@ -26,11 +26,11 @@ namespace XRL.World.Parts
         public const string MESSAGE_BREWING_FAILURE = "=capitalize==subject.the==subject.name= =verb:break= into a coughing fit and =verb:vomit= up =liquid=.";
         public const string MESSAGE_BREWING_HUH = "=capitalize==subject.the==subject.name= =verb:chime= a triumphant jingle and =verb:dispense=… nothing?";
         public const string MESSAGE_BREWING_INTERRUPTED = "=capitalize==subject.the==subject.name= =verb:screech= and =verb:grind= suddenly to a halt.";
-        public const string MESSAGE_REFUSAL_WORKING = "=subject.The==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
-        public const string MESSAGE_REFUSAL_NO_CHARGE = "=subject.The==subject.name= =verb:whine= near-inaudibly.";
-        public const string MESSAGE_REFUSAL_AGGRAVATED = "=subject.The==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
-        public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
-        public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=subject.The==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
+        public const string MESSAGE_REFUSAL_WORKING = "=capitalize==subject.the==subject.name= =verb:make= a buzz of negation as =pronouns.subjective= deftly =verb:work:afterpronoun= through the process it has already begun.";
+        public const string MESSAGE_REFUSAL_NO_CHARGE = "=capitalize==subject.the==subject.name= =verb:whine= near-inaudibly.";
+        public const string MESSAGE_REFUSAL_AGGRAVATED = "=capitalize==subject.the==subject.name= =verb:make= a quiet, understated buzz of refusal and =verb:emanate= an aura of contempt.";
+        public const string MESSAGE_REFUSAL_INTAKE_EMPTY = "=capitalize==subject.the==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= ingredient intake.";
+        public const string MESSAGE_REFUSAL_DISH_OCCUPIED = "=capitalize==subject.the==subject.name= patiently =verb:flash= a pair of lights on either side of =pronouns.possessive= liquid dish.";
         public const string MESSAGE_CONCILIATION = "=capitalize==subject.the==subject.name= =verb:ding= conciliatorily.";
         public const int CHARGE_COST_TO_ACTIVATE = 5;
 
