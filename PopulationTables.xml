@@ -3,7 +3,7 @@
 
     <population Name="CommonOddEncounters" Load="Merge">
         <group Name="Types" Load="Merge">
-            <group Name="helado_Brewed Beverages_Automatic Brewer" Weight="1000000">
+            <group Name="helado_Brewed Beverages_Automatic Brewer" Weight="7">
                 <object Blueprint="helado_Brewed Beverages_Automatic Brewer" Number="1" Chance="100" />
 
                 <group Name="Ingredience" Style="pickone">
