@@ -76,7 +76,7 @@
     <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract" Inherits="IngredientMapping">
         <tag Name="Units" Value="helado_BrewedBeverages_CookingDomainGocoa_Unit" />
         <tag Name="Description" Value="leaping-based" />
-        <tag Name="RandomWeight" Value="0" /><!-- Don't select this for random recipes. -->
+        <tag Name="RandomWeight" Value="0" /> <!-- Don't select this ingredient when cooking Canned Have-It-All. -->
     </object>
 
     <!-- Brewing -->

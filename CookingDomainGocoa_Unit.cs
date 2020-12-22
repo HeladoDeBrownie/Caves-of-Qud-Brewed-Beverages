@@ -11,6 +11,7 @@ namespace XRL.World.Effects
         public override void Apply(GameObject go, Effect parent)
         {
             go.RegisterEffectEvent(parent, "AfterMoved");
+            base.Apply(go, parent);
         }
 
         public override void FireEvent(Event e)
@@ -24,9 +25,17 @@ namespace XRL.World.Effects
                         !(parent.Object.OnWorldMap())
                     )
                     {
-                        parent.Object.Move(e.GetStringParameter("Direction"), true, EnergyCost: 0);
+                        parent.Object.Move(
+                            Direction: e.GetStringParameter("Direction"),
+                            Forced: true,
+                            EnergyCost: 0
+                        );
                     }
 
+                    break;
+
+                default:
+                    base.FireEvent(e);
                     break;
             }
         }
@@ -34,6 +43,7 @@ namespace XRL.World.Effects
         public override void Remove(GameObject go, Effect parent)
         {
             go.UnregisterEffectEvent(parent, "AfterMoved");
+            base.Remove(go, parent);
         }
     }
 }

@@ -6,7 +6,6 @@ using static XRL.UI.ConversationUI; // VariableReplace
 
 namespace XRL.World.Parts
 {
-
     [Serializable]
     public class helado_BrewedBeverages_AutomaticBrewer : IPart
     {
@@ -41,7 +40,8 @@ namespace XRL.World.Parts
         public bool NeedsToCalmDown = false;
         public long LastTurnTick = 0;
 
-        public override void Attach() {
+        public override void Attach()
+        {
             RandomSource = XRL.Rules.Stat.GetSeededRandomGenerator(
                 $"{MOD_PREFIX}_{ParentObject.id}"
             );
@@ -57,11 +57,12 @@ namespace XRL.World.Parts
             if (ParentObject.HasEffect(typeof(helado_BrewedBeverages_Brewing)))
             {
                 // Refuse to work because we're already working!
+
                 GetAnnoyed(activator);
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_WORKING,
-                    ParentObject
+                    Input: MESSAGE_REFUSAL_WORKING,
+                    obj: ParentObject
                 ));
             }
             else if (!ParentObject.UseCharge(CHARGE_COST_TO_ACTIVATE))
@@ -69,8 +70,8 @@ namespace XRL.World.Parts
                 // Refuse to work because no charge is available.
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_NO_CHARGE,
-                    ParentObject
+                    Input: MESSAGE_REFUSAL_NO_CHARGE,
+                    obj: ParentObject
                 ));
             }
             else if (IsAggravated() || ParentObject.IsHostileTowards(activator))
@@ -78,8 +79,8 @@ namespace XRL.World.Parts
                 // Refuse to work because we're too aggravated.
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_AGGRAVATED,
-                    ParentObject
+                    Input: MESSAGE_REFUSAL_AGGRAVATED,
+                    obj: ParentObject
                 ));
             }
             else if (inventory.GetObjectCount() == 0)
@@ -87,8 +88,8 @@ namespace XRL.World.Parts
                 // Refuse to work because our intake is empty.
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_INTAKE_EMPTY,
-                    ParentObject
+                    Input: MESSAGE_REFUSAL_INTAKE_EMPTY,
+                    obj: ParentObject
                 ));
             }
             else if (!liquid.IsEmpty())
@@ -96,18 +97,21 @@ namespace XRL.World.Parts
                 // Refuse to work because our dish has liquid in it already.
 
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_REFUSAL_DISH_OCCUPIED,
-                    ParentObject
+                    Input: MESSAGE_REFUSAL_DISH_OCCUPIED,
+                    obj: ParentObject
                 ));
             }
             else
             {
                 // Let's get to work!
+
                 Recipe recipeToBrew = null;
-                var triedIngredients = new SortedSet<string>(inventory.GetObjects().ConvertAll(delegate (GameObject go)
-                {
-                    return go.GetBlueprint().Name;
-                }));
+                var triedIngredients = new SortedSet<string>(
+                    inventory.GetObjects().ConvertAll(delegate (GameObject go)
+                    {
+                        return go.GetBlueprint().Name;
+                    })
+                );
 
                 foreach (var blueprint in
                     GameObjectFactory.Factory.GetBlueprintsWithTag(
@@ -117,7 +121,10 @@ namespace XRL.World.Parts
                 {
                     var recipe = ParseRecipe(blueprint);
 
-                    if (recipe != null && recipe.Ingredients.SetEquals(triedIngredients))
+                    if (
+                        recipe != null &&
+                        recipe.Ingredients.SetEquals(triedIngredients)
+                    )
                     {
                         recipeToBrew = recipe;
                         break;
@@ -191,13 +198,14 @@ namespace XRL.World.Parts
 
         public override bool WantEvent(int id, int cascade)
         {
-            return base.WantEvent(id, cascade) ||
+            return
                 id == GetInventoryActionsEvent.ID ||
                 id == InventoryActionEvent.ID ||
                 id == BrewingStartedEvent.ID ||
                 id == BrewingContinueEvent.ID ||
                 id == BrewingFinishedEvent.ID ||
-                id == BrewingInterruptedEvent.ID;
+                id == BrewingInterruptedEvent.ID ||
+            base.WantEvent(id, cascade);
         }
 
         public override bool HandleEvent(GetInventoryActionsEvent e)
@@ -205,15 +213,11 @@ namespace XRL.World.Parts
             // List an activate option that makes us brew.
 
             e.AddAction(
-                "Activate",         // internal menu option name
-                'a',                // shortcut key
-                false,
-                "{{W|a}}ctivate",   // display text
-                "Activate",         // internal command event name
-                0,
-                false,
-                false,              // does not work at a distance
-                true                // unless we have telekinesis
+                Name: "Activate",
+                Key: 'a',
+                Display: "{{W|a}}ctivate",
+                Command: "Activate",
+                WorksTelekinetically: true
             );
 
             return true;
@@ -227,11 +231,9 @@ namespace XRL.World.Parts
                 e.Actor.UseEnergy(1000);
 
                 var message = VariableReplace(
-                    MESSAGE_ACTIVATE,           // string to substitute in
-                    e.Actor,                    // subject
-                    null,
-                    false,
-                    ParentObject                // object
+                    Input: MESSAGE_ACTIVATE,
+                    obj: e.Actor,
+                    altObj: ParentObject
                 );
 
                 if (e.Actor.IsPlayer())
@@ -265,13 +267,15 @@ namespace XRL.World.Parts
             {
                 foreach (var ingredientBlueprint in e.Recipe.Ingredients)
                 {
-                    inventory.FindObjectByBlueprint(ingredientBlueprint).Destroy();
+                    inventory
+                        .FindObjectByBlueprint(ingredientBlueprint)
+                        .Destroy();
                 }
             }
 
             AddPlayerMessage(VariableReplace(
-                MESSAGE_BREWING_BEGIN,
-                ParentObject
+                Input: MESSAGE_BREWING_BEGIN,
+                obj: ParentObject
             ));
 
             return true;
@@ -280,9 +284,9 @@ namespace XRL.World.Parts
         public bool HandleEvent(BrewingContinueEvent e)
         {
             AddPlayerMessage(VariableReplace(
-                e.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
-                                 : MESSAGE_BREWING_CONTINUE_FINE,
-                ParentObject
+                Input: e.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
+                                        : MESSAGE_BREWING_CONTINUE_FINE,
+                obj: ParentObject
             ));
             return true;
         }
@@ -299,7 +303,8 @@ namespace XRL.World.Parts
             }
             else if (PopulationManager.HasPopulation(e.Recipe.Beverage))
             {
-                beverage = PopulationManager.RollOneFrom(e.Recipe.Beverage).Blueprint;
+                beverage =
+                    PopulationManager.RollOneFrom(e.Recipe.Beverage).Blueprint;
             }
 
             if (beverage != null && LiquidVolume.isValidLiquid(beverage))
@@ -311,8 +316,12 @@ namespace XRL.World.Parts
                                                : MESSAGE_BREWING_SUCCESS;
 
                 AddPlayerMessage(VariableReplace(
-                    message.Replace("=liquid=", liquidVolume.GetLiquidName()),
-                    ParentObject
+                    Input: message.Replace(
+                        "=liquid=",
+                        liquidVolume.GetLiquidName()
+                    ),
+
+                    obj: ParentObject
                 ));
 
                 if (e.Recipe.Mistake)
@@ -323,8 +332,8 @@ namespace XRL.World.Parts
             else
             {
                 AddPlayerMessage(VariableReplace(
-                    MESSAGE_BREWING_HUH,
-                    ParentObject
+                    Input: MESSAGE_BREWING_HUH,
+                    obj: ParentObject
                 ));
             }
 
@@ -334,11 +343,12 @@ namespace XRL.World.Parts
         public bool HandleEvent(BrewingInterruptedEvent e)
         {
             // Our pipes are delicate :(
+
             ParentObject.ApplyEffect(new Broken());
 
             AddPlayerMessage(VariableReplace(
-                MESSAGE_BREWING_INTERRUPTED,
-                ParentObject
+                Input: MESSAGE_BREWING_INTERRUPTED,
+                obj: ParentObject
             ));
 
             return true;
@@ -366,8 +376,8 @@ namespace XRL.World.Parts
                             NeedsToCalmDown = false;
 
                             AddPlayerMessage(VariableReplace(
-                                MESSAGE_CONCILIATION,
-                                ParentObject
+                                Input: MESSAGE_CONCILIATION,
+                                obj: ParentObject
                             ));
 
                             break;

@@ -72,7 +72,14 @@ namespace XRL.Liquids
             {
                 go.Move(E.Direction, true, EnergyCost: 0);
                 go.ParticleText("!", 'B', false, 1.5f, -8f);
-                IPart.XDidYToZ(go, "slip", "on", Liquid.ParentObject, null, "!");
+
+                IPart.XDidYToZ(
+                    what: go,
+                    verb: "slip",
+                    preposition: "on",
+                    obj: Liquid.ParentObject,
+                    terminalPunctuation: "!"
+                );
             }
         }
     }

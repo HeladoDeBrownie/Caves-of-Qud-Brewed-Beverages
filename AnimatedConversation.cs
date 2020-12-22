@@ -9,18 +9,21 @@ namespace XRL.World.Parts
         {
             if (ParentObject.HasPart(typeof(Brain)))
             {
-                var conversationScript = ParentObject.GetPart<ConversationScript>();
+                var conversationScript =
+                    ParentObject.GetPart<ConversationScript>();
 
                 if (conversationScript == null)
                 {
-                    ParentObject.AddPart<ConversationScript>(new ConversationScript(ConversationID));
+                    ParentObject.AddPart(
+                        new ConversationScript(ConversationID)
+                    );
                 }
                 else
                 {
                     conversationScript.ConversationID = ConversationID;
                 }
 
-                Remove();
+                ParentObject.RemovePart(this);
             }
         }
 
