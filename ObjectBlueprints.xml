@@ -47,7 +47,7 @@
     <object Name="helado_Brewed Beverages_Gocoa Plant" Inherits="Plant">
         <part Name="Render" DisplayName="{{w|{{B-w-g sequence|gocoa}} stalk}}" ColorString="&amp;B" DetailColor="w" Tile="helado_cane-with-sprouts.png" />
         <part Name="Description" Short="An evolutionary oddity, this plant burns kinetic energy not for the sake of its own survival, but rather by depositing it into the pod-like growths hanging from its limbs, ripe for eating by other creatures." />
-        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:5" UnripeColor="&amp;w" UnripeTileColor="&amp;B" UnripeDetailColor="w" RipeColor="&amp;g" RipeTileColor="&amp;B" RipeDetailColor="g" />
+        <part Name="Harvestable" OnSuccess="helado_Brewed Beverages_Gocoa Seed" OnSuccessAmount="1-7" StartRipeChance="1:5" UnripeColor="&amp;w" UnripeTileColor="&amp;w" UnripeDetailColor="k" RipeColor="&amp;g" RipeTileColor="&amp;w" RipeDetailColor="g" />
 
         <tag Name="DynamicObjectsTable:Jungle_FarmablePlants" />
         <tag Name="DynamicObjectsTable:Jungle_Plants" />
