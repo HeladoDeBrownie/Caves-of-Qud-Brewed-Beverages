@@ -4,6 +4,8 @@ Find one on every run in Dardi's kitchen!
 
 See [the spoilers](Spoilers.markdown) for more information.
 
+This version of this mod was tested with Caves of Qud versions 2.0.201.114 Early Access, 2.0.202.74 Beta, and 2.0.202.76 Beta.
+
 # Installing
 
 See [the Official Caves of Qud Wiki](https://wiki.cavesofqud.com/Modding:Installing_a_mod#GitHub) for directions.
