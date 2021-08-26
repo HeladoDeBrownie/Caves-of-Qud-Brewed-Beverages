@@ -2,7 +2,7 @@ using System; // Random, Serializable
 using System.Collections.Generic; // SortedSet
 using XRL.World.Effects; // helado_BrewedBeverages_Brewing
 using static XRL.World.Effects.helado_BrewedBeverages_Brewing; // BrewingEvent et al
-using static XRL.UI.ConversationUI; // VariableReplace
+using static XRL.GameText; // VariableReplace
 
 namespace XRL.World.Parts
 {
