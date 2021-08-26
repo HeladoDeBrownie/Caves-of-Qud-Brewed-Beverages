@@ -6,7 +6,7 @@ See [the spoilers](Spoilers.markdown) for more information.
 
 # Installing
 
-See [the Official Caves of Qud Wiki](https://cavesofqud.gamepedia.com/Modding:Installing_a_mod#GitHub) for directions.
+See [the Official Caves of Qud Wiki](https://wiki.cavesofqud.com/Modding:Installing_a_mod#GitHub) for directions.
 
 # Modding
 
