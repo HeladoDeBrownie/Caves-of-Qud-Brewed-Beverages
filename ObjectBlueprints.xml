@@ -75,8 +75,13 @@
 
     <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Gocoa Extract" Inherits="IngredientMapping">
         <tag Name="Units" Value="helado_BrewedBeverages_CookingDomainGocoa_Unit" />
-        <tag Name="Description" Value="leaping-based" />
+        <tag Name="Description" Value="movement-based" />
         <tag Name="RandomWeight" Value="0" /> <!-- Don't select this ingredient when cooking Canned Have-It-All. -->
+    </object>
+
+    <object Name="ProceduralCookingIngredient_helado_Brewed Beverages_Witches Brew" Inherits="IngredientMapping">
+        <tag Name="Description" Value="confusion-based" />
+        <tag Name="RandomWeight" Value="0" />
     </object>
 
     <!-- Brewing -->
@@ -142,10 +147,30 @@
         <tag Name="helado_Brewed Beverages_Beverage" Value="helado_Brewed Beverages_Vinewafer Recipe Results" />
     </object>
 
+    <object Name="helado_Brewed Beverages_Witches Brew Recipe A" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Witchwood Bark,Starapple,PlantLimb" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="41" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="witchesbrew" />
+        <tag Name="helado_Brewed Beverages_Tricky" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Witches Brew Recipe B" Inherits="helado_Brewed Beverages_Base Recipe">
+        <tag Name="helado_Brewed Beverages_Ingredients" Value="Witchwood Bark,Urberry" />
+        <tag Name="helado_Brewed Beverages_Duration" Value="31" />
+        <tag Name="helado_Brewed Beverages_Beverage" Value="witchesbrew" />
+        <tag Name="helado_Brewed Beverages_Tricky" />
+    </object>
+
     <!-- Debug -->
 
     <object Name="helado_Brewed Beverages_Gocoa Extract Phial" Inherits="Phial">
         <part Name="LiquidVolume" StartVolume="1" InitialLiquid="gocoaextract-1000" />
+
+        <tag Name="ExcludeFromDynamicEncounters" Value="*noinherit" />
+    </object>
+
+    <object Name="helado_Brewed Beverages_Witches Brew Phial" Inherits="Phial">
+        <part Name="LiquidVolume" StartVolume="1" InitialLiquid="witchesbrew-1000" />
 
         <tag Name="ExcludeFromDynamicEncounters" Value="*noinherit" />
     </object>
