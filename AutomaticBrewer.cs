@@ -61,8 +61,8 @@ namespace XRL.World.Parts
                 GetAnnoyed(activator);
 
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_REFUSAL_WORKING,
-                    obj: ParentObject
+                    MESSAGE_REFUSAL_WORKING,
+                    Subject: ParentObject
                 ));
             }
             else if (!ParentObject.UseCharge(CHARGE_COST_TO_ACTIVATE))
@@ -70,8 +70,8 @@ namespace XRL.World.Parts
                 // Refuse to work because no charge is available.
 
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_REFUSAL_NO_CHARGE,
-                    obj: ParentObject
+                    MESSAGE_REFUSAL_NO_CHARGE,
+                    Subject: ParentObject
                 ));
             }
             else if (IsAggravated() || ParentObject.IsHostileTowards(activator))
@@ -79,8 +79,8 @@ namespace XRL.World.Parts
                 // Refuse to work because we're too aggravated.
 
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_REFUSAL_AGGRAVATED,
-                    obj: ParentObject
+                    MESSAGE_REFUSAL_AGGRAVATED,
+                    Subject: ParentObject
                 ));
             }
             else if (inventory.GetObjectCount() == 0)
@@ -88,8 +88,8 @@ namespace XRL.World.Parts
                 // Refuse to work because our intake is empty.
 
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_REFUSAL_INTAKE_EMPTY,
-                    obj: ParentObject
+                    MESSAGE_REFUSAL_INTAKE_EMPTY,
+                    Subject: ParentObject
                 ));
             }
             else if (!liquid.IsEmpty())
@@ -97,8 +97,8 @@ namespace XRL.World.Parts
                 // Refuse to work because our dish has liquid in it already.
 
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_REFUSAL_DISH_OCCUPIED,
-                    obj: ParentObject
+                    MESSAGE_REFUSAL_DISH_OCCUPIED,
+                    Subject: ParentObject
                 ));
             }
             else
@@ -231,9 +231,9 @@ namespace XRL.World.Parts
                 e.Actor.UseEnergy(1000);
 
                 var message = VariableReplace(
-                    Input: MESSAGE_ACTIVATE,
-                    obj: e.Actor,
-                    altObj: ParentObject
+                    MESSAGE_ACTIVATE,
+                    Subject: e.Actor,
+                    Object: ParentObject
                 );
 
                 if (e.Actor.IsPlayer())
@@ -274,8 +274,8 @@ namespace XRL.World.Parts
             }
 
             AddPlayerMessage(VariableReplace(
-                Input: MESSAGE_BREWING_BEGIN,
-                obj: ParentObject
+                MESSAGE_BREWING_BEGIN,
+                Subject: ParentObject
             ));
 
             return true;
@@ -284,9 +284,9 @@ namespace XRL.World.Parts
         public bool HandleEvent(BrewingContinueEvent e)
         {
             AddPlayerMessage(VariableReplace(
-                Input: e.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
-                                        : MESSAGE_BREWING_CONTINUE_FINE,
-                obj: ParentObject
+                e.Recipe.Mistake ? MESSAGE_BREWING_CONTINUE_POOR
+                                 : MESSAGE_BREWING_CONTINUE_FINE,
+                Subject: ParentObject
             ));
             return true;
         }
@@ -316,12 +316,12 @@ namespace XRL.World.Parts
                                                : MESSAGE_BREWING_SUCCESS;
 
                 AddPlayerMessage(VariableReplace(
-                    Input: message.Replace(
+                    message.Replace(
                         "=liquid=",
                         liquidVolume.GetLiquidName()
                     ),
 
-                    obj: ParentObject
+                    Subject: ParentObject
                 ));
 
                 if (e.Recipe.Mistake)
@@ -332,8 +332,8 @@ namespace XRL.World.Parts
             else
             {
                 AddPlayerMessage(VariableReplace(
-                    Input: MESSAGE_BREWING_HUH,
-                    obj: ParentObject
+                    MESSAGE_BREWING_HUH,
+                    Subject: ParentObject
                 ));
             }
 
@@ -347,8 +347,8 @@ namespace XRL.World.Parts
             ParentObject.ApplyEffect(new Broken());
 
             AddPlayerMessage(VariableReplace(
-                Input: MESSAGE_BREWING_INTERRUPTED,
-                obj: ParentObject
+                MESSAGE_BREWING_INTERRUPTED,
+                Subject: ParentObject
             ));
 
             return true;
@@ -376,8 +376,8 @@ namespace XRL.World.Parts
                             NeedsToCalmDown = false;
 
                             AddPlayerMessage(VariableReplace(
-                                Input: MESSAGE_CONCILIATION,
-                                obj: ParentObject
+                                MESSAGE_CONCILIATION,
+                                Subject: ParentObject
                             ));
 
                             break;
