@@ -1,5 +1,9 @@
 <populations>
-    <!-- # Encounters -->
+    <population Name="Books" Load="Merge">
+        <group Name="Items" Load="Merge">
+            <object Blueprint="helado_Brewed Beverages_Automatic Brewer Manual" Weight="1" />
+        </group>
+    </population>
 
     <population Name="CommonOddEncounters" Load="Merge">
         <group Name="Types" Load="Merge">
@@ -21,7 +25,15 @@
         </group>
     </population>
 
-    <!-- # Automatic Brewer Recipe Results -->
+    <population Name="JungleZoneGlobals" Load="Merge">
+        <object Chance="5" Number="2d3+1" Blueprint="helado_Brewed Beverages_Gocoa Plant" />
+    </population>
+
+    <population Name="RiversZoneGlobals" Load="Merge">
+        <object Chance="7" Number="2d3+1" Blueprint="helado_Brewed Beverages_Gocoa Plant" />
+    </population>
+
+    <!-- Automatic Brewer Recipe Results -->
 
     <population Name="helado_Brewed Beverages_Starapple Recipe Results">
         <group Style="pickone">
