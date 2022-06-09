@@ -33,7 +33,7 @@
     </object>
 
     <object Name="helado_Brewed Beverages_Automatic Brewer Manual" Inherits="Book">
-        <part Name="Render" DisplayName="{{W|Your Brand New All-Purpose {{rainbow|Unibrew}}: Care and Feeding}}" ColorString="&amp;B" RenderString="=" RenderLayer="5" Tile="Items/sw_book2.bmp" DetailColor="G" />
+        <part Name="Render" DisplayName="{{W|Your Brand New All-Purpose {{rainbow|Omnibrew}}: Care and Feeding}}" ColorString="&amp;B" RenderString="=" RenderLayer="5" Tile="Items/sw_book2.bmp" DetailColor="G" />
         <part Name="Description" Short="Only the letters engraved on the cover have resisted entropy to any appreciable degree. The pages sing of a time and place foreign to this world, forever gone." />
         <part Name="Book" ID="helado_Brewed Beverages_Automatic Brewer Manual" />
         <part Name="Commerce" Value="500" />
