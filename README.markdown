@@ -17,12 +17,3 @@ Other mods can add more recipes for the automatic brewer! See [the modding overv
 # Contributing
 
 Open an issue or send a pull request on [the project's Github repository](https://github.com/HeladoDeBrownie/Caves-of-Qud-Brewed-Beverages). If you contribute code, make sure your contribution runs in-game.
-
-# Developing
-
-The following steps are optional but useful:
-
-- Install the `dotnet` command.
-- Copy or symbolic link `Assembly-CSharp.dll` and `UnityEngine.CoreModule.dll` from the *Caves of Qud* installation into this mod's directory. (These are ignored by this project's git settings.)
-
-Now you can `dotnet build` to error check the code and also use Visual Studio Code's code completion.
