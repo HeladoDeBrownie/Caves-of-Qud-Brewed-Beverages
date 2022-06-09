@@ -6,7 +6,7 @@ namespace XRL.Liquids
 {
     [IsLiquid]
     [System.Serializable]
-    public class helado_LiquidGocoaExtract : BaseLiquid
+    public class helado_BrewedBeverages_LiquidGocoaExtract : BaseLiquid
     {
         public new const string ID = "gocoaextract";
         public const string ADJECTIVE = "{{B-b sequence|fast}}";
@@ -17,7 +17,7 @@ namespace XRL.Liquids
             "b",
         };
 
-        public helado_LiquidGocoaExtract() : base(ID) { }
+        public helado_BrewedBeverages_LiquidGocoaExtract() : base(ID) { }
 
         public override string GetName(LiquidVolume _)
         {
