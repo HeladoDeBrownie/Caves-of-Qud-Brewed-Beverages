@@ -30,7 +30,6 @@
         <tag Name="ForceAnimatable" />
         <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
         <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
-        <tag Name="NoTrade" />
         <tag Name="Tier" Value="2" />
     </object>
 
