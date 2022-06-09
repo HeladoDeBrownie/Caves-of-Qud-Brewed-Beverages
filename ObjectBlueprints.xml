@@ -4,6 +4,7 @@
         <part Name="Description" Short="Lifeless, the exposed labyrinth of gears, rods, and tubes betray none of their secrets. But when the machine whirs into motion, =pronouns.possessive= deft processes outline only one, inevitable goal: the production of liquid sustenance." />
         <part Name="Physics" Weight="100" Takeable="false" />
         <part Name="Container" />
+        <part Name="Interesting" EvenIfHostile="true" EvenIfUnknown="true" />
         <part Name="Inventory" />
         <part Name="LiquidVolume" StartVolume="0" MaxVolume="1" />
         <part Name="TinkerItem" Bits="00457" CanDisassemble="true" CanBuild="false" CanRepair="true" />
