@@ -27,7 +27,6 @@
         <tag Name="AnimatedSkills" Value="CookingAndGathering,CookingAndGathering_Spicer" />
         <tag Name="BodyType" Value="helado_AutomaticBrewer" />
         <tag Name="DynamicObjectsTable:AnimatableFurniture" />
-        <tag Name="ForceAnimatable" />
         <tag Name="HeroNameTitleDescriptor" Value="Dawnbringer,Drippy,Energetic,Invigorating,Percolatory,Slushy,Sputtery,Sticky,Wakeful" />
         <tag Name="HeroNameTitleTemplate" Value="*Name* the *Descriptor*, legendary *CreatureType*" />
         <tag Name="Tier" Value="2" />
